@@ -1,0 +1,300 @@
+SET
+Null display is "-".
+
+===== REQUÊTE 1 : conférences de l'année courante =====
+ id_conf |                                                intitule                                                 | date_debut |  date_fin  |            lieu            |    type    
+---------+---------------------------------------------------------------------------------------------------------+------------+------------+----------------------------+------------
+      81 | European Days on GIScience 2026                                                                         | 2026-01-30 | 2026-02-02 | Montréal (Canada)          | Conférence
+     201 | Workshop on Moving objects @ European Days on GIScience 2026                                            | 2026-02-03 | 2026-02-03 | Montréal (Canada)          | Workshop
+     161 | Workshop on Indexing of temporal data @ CAISE 2026                                                      | 2026-02-09 | 2026-02-09 | Toronto (Canada)           | Workshop
+       9 | CAISE 2026                                                                                              | 2026-02-10 | 2026-02-11 | Toronto (Canada)           | Conférence
+     100 | TIME 2026                                                                                               | 2026-02-17 | 2026-02-20 | Paris (France)             | Conférence
+      12 | Forum on Data and Knowledge Engineering 2026                                                            | 2026-02-28 | 2026-03-04 | Munich (Allemagne)         | Conférence
+     173 | Workshop on Distributed computing @ Forum on Data and Knowledge Engineering 2026                        | 2026-03-05 | 2026-03-05 | Munich (Allemagne)         | Workshop
+     194 | Workshop on Access control @ International Conference on Database Systems 2026                          | 2026-03-10 | 2026-03-10 | São Paulo (Brésil)         | Workshop
+      72 | International Conference on Database Systems 2026                                                       | 2026-03-11 | 2026-03-13 | São Paulo (Brésil)         | Conférence
+      22 | Symposium on Knowledge Management 2026                                                                  | 2026-03-13 | 2026-03-15 | Milan (Italie)             | Conférence
+      44 | European Days on Spatial Information 2026                                                               | 2026-04-08 | 2026-04-11 | San Francisco (États-Unis) | Conférence
+     179 | Workshop on Temporal data models @ European Days on Temporal Reasoning 2026                             | 2026-04-08 | 2026-04-08 | Boston (États-Unis)        | Workshop
+      15 | European Days on Temporal Reasoning 2026                                                                | 2026-04-09 | 2026-04-12 | Boston (États-Unis)        | Conférence
+      45 | European Days on Big Data Analytics 2026                                                                | 2026-04-10 | 2026-04-11 | Rome (Italie)              | Conférence
+     113 | International Conference on Geographic Data Science 2026                                                | 2026-06-10 | 2026-06-11 | Barcelone (Espagne)        | Conférence
+     175 | Workshop on Geographic information retrieval @ International Conference on Geographic Data Science 2026 | 2026-06-12 | 2026-06-12 | Barcelone (Espagne)        | Workshop
+      91 | Symposium on Data Engineering 2026                                                                      | 2026-06-15 | 2026-06-17 | Zurich (Suisse)            | Conférence
+      11 | DEXA 2026                                                                                               | 2026-06-29 | 2026-06-30 | Montréal (Canada)          | Conférence
+      21 | ICDE 2026                                                                                               | 2026-07-01 | 2026-07-02 | Berlin (Allemagne)         | Conférence
+      46 | VLDB 2026                                                                                               | 2026-07-02 | 2026-07-05 | Delft (Pays-Bas)           | Conférence
+     193 | Workshop on Data anonymization @ European Days on Data and Knowledge Engineering 2026                   | 2026-07-04 | 2026-07-04 | Édimbourg (Royaume-Uni)    | Workshop
+      16 | European Days on Data and Knowledge Engineering 2026                                                    | 2026-07-05 | 2026-07-07 | Édimbourg (Royaume-Uni)    | Conférence
+      17 | Forum on Database Systems 2026                                                                          | 2026-07-12 | 2026-07-13 | Grenoble (France)          | Conférence
+      58 | Symposium on Database Systems 2026                                                                      | 2026-07-30 | 2026-07-31 | São Paulo (Brésil)         | Conférence
+     134 | European Days on Knowledge Management 2026 – São Paulo                                                  | 2026-07-31 | 2026-08-02 | São Paulo (Brésil)         | Conférence
+     110 | Forum on Data and Knowledge Engineering 2026 – Lausanne                                                 | 2026-08-13 | 2026-08-16 | Lausanne (Suisse)          | Conférence
+      71 | International Conference on Data Engineering 2026 – Seattle                                             | 2026-08-21 | 2026-08-22 | Seattle (États-Unis)       | Conférence
+     192 | Workshop on NoSQL databases @ International Conference on Data Engineering 2026                         | 2026-08-23 | 2026-08-24 | Seattle (États-Unis)       | Workshop
+     176 | Workshop on Data lakes @ Symposium on Knowledge Management 2026                                         | 2026-09-09 | 2026-09-09 | Vancouver (Canada)         | Workshop
+      60 | Symposium on Knowledge Management 2026 – Vancouver                                                      | 2026-09-10 | 2026-09-12 | Vancouver (Canada)         | Conférence
+       7 | SDH 2026 – Spatial Data Handling                                                                        | 2026-09-18 | 2026-09-20 | Lyon (France)              | Conférence
+      20 | Forum on Database Systems 2026 – Amsterdam                                                              | 2026-09-20 | 2026-09-24 | Amsterdam (Pays-Bas)       | Conférence
+      19 | Symposium on Data Science 2026                                                                          | 2026-09-21 | 2026-09-24 | Paris (France)             | Conférence
+      97 | Symposium on Knowledge Management 2026 – Sydney                                                         | 2026-10-05 | 2026-10-09 | Sydney (Australie)         | Conférence
+      14 | Forum on GIScience 2026                                                                                 | 2026-10-07 | 2026-10-09 | Sydney (Australie)         | Conférence
+      93 | Symposium on GIScience 2026                                                                             | 2026-10-08 | 2026-10-10 | Berlin (Allemagne)         | Conférence
+     150 | Symposium on Location Intelligence 2026                                                                 | 2026-10-11 | 2026-10-13 | Seattle (États-Unis)       | Conférence
+     200 | Workshop on Data lakes @ International Conference on Data Engineering 2026                              | 2026-10-30 | 2026-10-30 | Tokyo (Japon)              | Workshop
+      23 | International Conference on Data Engineering 2026                                                       | 2026-10-31 | 2026-11-02 | Tokyo (Japon)              | Conférence
+      18 | European Days on Data Science 2026                                                                      | 2026-11-01 | 2026-11-02 | Paris (France)             | Conférence
+     189 | Workshop on Spatio-temporal data @ European Days on Spatial Information 2026                            | 2026-11-01 | 2026-11-01 | Lyon (France)              | Workshop
+      57 | European Days on Spatial Information 2026 – Lyon                                                        | 2026-11-02 | 2026-11-04 | Lyon (France)              | Conférence
+     167 | Workshop on Deep learning @ European Days on Data Science 2026                                          | 2026-11-03 | 2026-11-04 | Paris (France)             | Workshop
+      10 | EDBT 2026                                                                                               | 2026-11-05 | 2026-11-07 | Hambourg (Allemagne)       | Conférence
+     185 | Workshop on Reinforcement learning @ Symposium on Database Systems 2026                                 | 2026-11-17 | 2026-11-17 | Pékin (Chine)              | Workshop
+      83 | Symposium on Database Systems 2026 – Pékin                                                              | 2026-11-18 | 2026-11-21 | Pékin (Chine)              | Conférence
+     171 | Workshop on Access control @ European Days on Knowledge Management 2026                                 | 2026-11-23 | 2026-11-23 | Tunis (Tunisie)            | Workshop
+      13 | European Days on Knowledge Management 2026                                                              | 2026-11-24 | 2026-11-25 | Tunis (Tunisie)            | Conférence
+(48 rows)
+
+
+===== REQUÊTE 2 : conférences par pays =====
+  nom_pays   | nb_conferences |                                                                                                                                                                                                                                                                                                                                                                                         conferences                                                                                                                                                                                                                                                                                                                                                                                          
+-------------+----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ France      |             25 | TIME 2020 ; SDH 2020 – Spatial Data Handling ; International Conference on Data Science 2021 – Nantes ; SDH 2021 – Spatial Data Handling ; ER 2021 ; Forum on Knowledge Management 2021 ; CAISE 2022 ; International Conference on Information Systems 2022 ; Forum on Data Science 2022 ; TIME 2023 ; ER 2023 ; BDA 2023 ; ICDE 2023 ; International Conference on Big Data Analytics 2024 ; Forum on Data Science 2024 – Paris ; International Conference on Spatial Information 2025 ; TIME 2026 ; Forum on Database Systems 2026 ; SDH 2026 – Spatial Data Handling ; Symposium on Data Science 2026 ; European Days on Data Science 2026 ; European Days on Spatial Information 2026 – Lyon ; Forum on Data and Knowledge Engineering 2027 ; Forum on Database Systems 2027 ; ICDE 2027
+ États-Unis  |             16 | European Days on Big Data Analytics 2022 ; International Conference on Database Systems 2023 ; International Conference on Location Intelligence 2023 ; Symposium on Data Engineering 2024 ; Forum on Data Science 2025 ; BDA 2025 ; Forum on Data and Knowledge Engineering 2025 ; Symposium on Database Systems 2025 ; International Conference on Data and Knowledge Engineering 2025 ; European Days on Spatial Information 2026 ; European Days on Temporal Reasoning 2026 ; International Conference on Data Engineering 2026 – Seattle ; Symposium on Location Intelligence 2026 ; EDBT 2027 ; European Days on Data Engineering 2027 ; International Conference on Temporal Data 2027
+ Allemagne   |             15 | DEXA 2020 ; International Conference on Database Systems 2020 ; Forum on GIScience 2021 ; Forum on Knowledge Management 2021 – Berlin ; Symposium on Data Engineering 2023 – Hambourg ; ER 2024 ; Symposium on Big Data Analytics 2024 ; CAISE 2024 ; Forum on Information Systems 2024 ; Forum on Data and Knowledge Engineering 2026 ; ICDE 2026 ; Symposium on GIScience 2026 ; EDBT 2026 ; SDH 2027 – Spatial Data Handling ; European Days on GIScience 2027
+ Royaume-Uni |             14 | ER 2020 ; Symposium on Data and Knowledge Engineering 2021 ; European Days on Information Systems 2021 ; Symposium on Knowledge Management 2022 – Édimbourg ; Symposium on Temporal Reasoning 2022 ; TIME 2022 ; International Conference on Data Engineering 2023 ; Symposium on Data Engineering 2023 ; CAISE 2023 ; European Days on Temporal Reasoning 2023 ; International Conference on Data Engineering 2024 ; European Days on Data and Knowledge Engineering 2026 ; CAISE 2027 ; VLDB 2027
+ Espagne     |             12 | International Conference on Temporal Reasoning 2020 ; Symposium on Information Systems 2020 ; International Conference on Data Science 2021 ; DEXA 2021 ; SDH 2022 – Spatial Data Handling ; International Conference on Location Intelligence 2022 ; SDH 2023 – Spatial Data Handling ; BDA 2024 ; International Conference on Geographic Data Science 2026 ; European Days on Big Data Analytics 2027 – Valence ; European Days on Time Series Management 2027 ; European Days on Database Systems 2027 – Barcelone
+ Australie   |             11 | EDBT 2020 ; International Conference on Big Data Analytics 2021 ; DEXA 2023 ; International Conference on Knowledge Management 2025 ; SDH 2025 – Spatial Data Handling ; Forum on Information Systems 2025 ; DEXA 2025 ; Symposium on Knowledge Management 2026 – Sydney ; Forum on GIScience 2026 ; Symposium on Database Systems 2027 ; ER 2027
+ Italie      |             11 | Forum on Data and Knowledge Engineering 2020 ; Forum on Temporal Reasoning 2020 – Milan ; ICDE 2021 ; Symposium on Database Systems 2021 ; Forum on Knowledge Management 2023 ; TIME 2024 ; SDH 2024 – Spatial Data Handling ; Symposium on Knowledge Management 2026 ; European Days on Big Data Analytics 2026 ; European Days on Database Systems 2027 ; TIME 2027
+ Suisse      |             10 | European Days on Data Engineering 2020 ; Forum on Temporal Reasoning 2020 ; VLDB 2022 ; Forum on Data and Knowledge Engineering 2023 ; EDBT 2023 ; TIME 2025 ; ICDE 2025 ; Forum on Knowledge Management 2025 ; Symposium on Data Engineering 2026 ; Forum on Data and Knowledge Engineering 2026 – Lausanne
+ Brésil      |              9 | International Conference on Data Science 2020 ; VLDB 2020 ; BDA 2022 ; EDBT 2022 ; DEXA 2024 ; International Conference on Database Systems 2026 ; Symposium on Database Systems 2026 ; European Days on Knowledge Management 2026 – São Paulo ; Symposium on Knowledge Management 2027
+ Canada      |              9 | European Days on Data and Knowledge Engineering 2022 ; European Days on Big Data Analytics 2022 – Toronto ; ER 2025 ; European Days on GIScience 2026 ; CAISE 2026 ; DEXA 2026 ; Symposium on Knowledge Management 2026 – Vancouver ; International Conference on Big Data Analytics 2027 ; Forum on Data Science 2027
+ Japon       |              9 | BDA 2020 ; Symposium on Knowledge Management 2022 ; European Days on Data Engineering 2022 ; International Conference on Temporal Data 2023 ; International Conference on Data Engineering 2026 ; European Days on Big Data Analytics 2027 ; Forum on Database Systems 2027 – Tokyo ; Forum on Data and Knowledge Engineering 2027 – Tokyo ; DEXA 2027
+ Pays-Bas    |              6 | VLDB 2021 ; BDA 2021 ; ER 2022 ; VLDB 2024 ; VLDB 2026 ; Forum on Database Systems 2026 – Amsterdam
+ Chine       |              5 | European Days on Data Science 2021 ; Forum on Data Engineering 2022 ; ICDE 2022 ; EDBT 2025 ; Symposium on Database Systems 2026 – Pékin
+ Tunisie     |              5 | European Days on Temporal Reasoning 2021 ; Symposium on Big Data Analytics 2022 ; Forum on Temporal Data 2023 ; Forum on Spatial Information 2025 ; European Days on Knowledge Management 2026
+ Belgique    |              3 | European Days on Data Science 2023 ; ICDE 2024 ; Forum on Data Science 2024
+(15 rows)
+
+
+===== REQUÊTE 3 : conférences sur le domaine 'spatial' =====
+ id_conf |                                                intitule                                                 | date_debut |                                                                                       themes_concernes                                                                                       
+---------+---------------------------------------------------------------------------------------------------------+------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      87 | European Days on GIScience 2027                                                                         | 2027-09-09 | Cartographic generalization, Geographic information retrieval, R-tree, Spatial databases, Spatio-temporal data
+     202 | Workshop on Geographic information retrieval @ European Days on GIScience 2027                          | 2027-09-08 | R-tree, Spatio-temporal data
+       8 | SDH 2027 – Spatial Data Handling                                                                        | 2027-07-19 | Cartographic generalization, Geographic information retrieval, GIS, Location-based services, Moving objects, Quadtree, Remote sensing data, Spatial databases, Spatio-temporal data
+      39 | European Days on Database Systems 2027                                                                  | 2027-03-22 | Spatio-temporal data
+      68 | European Days on Big Data Analytics 2027                                                                | 2027-02-05 | Spatial databases
+     137 | International Conference on Big Data Analytics 2027                                                     | 2027-01-29 | Spatial databases
+      10 | EDBT 2026                                                                                               | 2026-11-05 | R-tree
+      57 | European Days on Spatial Information 2026 – Lyon                                                        | 2026-11-02 | Cartographic generalization, Geographic information retrieval, GIS, Remote sensing data, Spatial databases, Trajectory data
+     189 | Workshop on Spatio-temporal data @ European Days on Spatial Information 2026                            | 2026-11-01 | Spatial databases
+     150 | Symposium on Location Intelligence 2026                                                                 | 2026-10-11 | Cartographic generalization, Geographic information retrieval, GIS, Location-based services, Moving objects, Quadtree, R-tree, Remote sensing data, Spatial indexing
+      93 | Symposium on GIScience 2026                                                                             | 2026-10-08 | Geographic information retrieval, GIS, R-tree, Spatio-temporal data, Trajectory data
+      14 | Forum on GIScience 2026                                                                                 | 2026-10-07 | Moving objects, R-tree, Spatial indexing, Spatio-temporal data
+      20 | Forum on Database Systems 2026 – Amsterdam                                                              | 2026-09-20 | Spatio-temporal data
+       7 | SDH 2026 – Spatial Data Handling                                                                        | 2026-09-18 | Geographic information retrieval, GIS, R-tree, Remote sensing data, Spatial databases, Trajectory data
+     176 | Workshop on Data lakes @ Symposium on Knowledge Management 2026                                         | 2026-09-09 | Location-based services
+     175 | Workshop on Geographic information retrieval @ International Conference on Geographic Data Science 2026 | 2026-06-12 | R-tree, Remote sensing data, Trajectory data
+     113 | International Conference on Geographic Data Science 2026                                                | 2026-06-10 | Cartographic generalization, Geographic information retrieval, GIS, Quadtree, R-tree, Remote sensing data, Spatio-temporal data, Trajectory data
+      44 | European Days on Spatial Information 2026                                                               | 2026-04-08 | GIS, Location-based services, Remote sensing data, Spatial indexing, Trajectory data
+       9 | CAISE 2026                                                                                              | 2026-02-10 | R-tree
+     201 | Workshop on Moving objects @ European Days on GIScience 2026                                            | 2026-02-03 | Cartographic generalization, Spatial databases, Spatio-temporal data
+      81 | European Days on GIScience 2026                                                                         | 2026-01-30 | GIS, Location-based services, Moving objects, Quadtree, R-tree, Remote sensing data, Spatial indexing, Trajectory data
+     191 | Workshop on R-tree @ International Conference on Spatial Information 2025                               | 2025-11-12 | Location-based services, Moving objects, Remote sensing data, Spatial indexing, Trajectory data
+      77 | International Conference on Spatial Information 2025                                                    | 2025-11-07 | Moving objects, Remote sensing data, Spatial databases, Spatio-temporal data
+      67 | ER 2025                                                                                                 | 2025-10-10 | Location-based services, Moving objects, R-tree, Remote sensing data, Spatio-temporal data
+       6 | SDH 2025 – Spatial Data Handling                                                                        | 2025-05-30 | Cartographic generalization, Geographic information retrieval, GIS, Moving objects, Quadtree, R-tree, Spatial databases, Trajectory data
+      86 | Forum on Spatial Information 2025                                                                       | 2025-04-08 | Cartographic generalization, Quadtree, Remote sensing data, Trajectory data
+     101 | BDA 2025                                                                                                | 2025-04-05 | GIS, Location-based services, Spatial databases
+     117 | VLDB 2024                                                                                               | 2024-09-28 | Location-based services, R-tree, Spatial databases, Spatial indexing, Trajectory data
+     199 | Workshop on Moving objects @ VLDB 2024                                                                  | 2024-09-27 | Cartographic generalization, Moving objects, Spatial databases, Spatio-temporal data
+     126 | International Conference on Data Engineering 2024                                                       | 2024-09-24 | Remote sensing data
+     160 | Forum on Information Systems 2024                                                                       | 2024-09-14 | Spatial indexing
+     112 | BDA 2024                                                                                                | 2024-09-05 | Location-based services
+     164 | Workshop on Cartographic generalization @ SDH 2024                                                      | 2024-08-05 | GIS, Location-based services, Moving objects, R-tree, Spatio-temporal data
+       5 | SDH 2024 – Spatial Data Handling                                                                        | 2024-08-02 | GIS, Location-based services, Quadtree, Spatial databases, Trajectory data
+      30 | DEXA 2024                                                                                               | 2024-04-02 | Cartographic generalization, R-tree, Spatial indexing, Trajectory data
+     131 | International Conference on Location Intelligence 2023                                                  | 2023-11-15 | GIS, Location-based services, Quadtree, Spatial databases, Spatial indexing, Trajectory data
+      26 | International Conference on Database Systems 2023                                                       | 2023-10-15 | GIS
+       4 | SDH 2023 – Spatial Data Handling                                                                        | 2023-09-10 | Location-based services, Quadtree, Spatial databases, Spatio-temporal data
+     103 | BDA 2023                                                                                                | 2023-06-24 | GIS, Moving objects, Remote sensing data, Spatio-temporal data
+     174 | Workshop on Remote sensing data @ BDA 2023                                                              | 2023-06-23 | Geographic information retrieval, Spatial databases
+     122 | VLDB 2022                                                                                               | 2022-08-30 | Moving objects
+     147 | International Conference on Location Intelligence 2022                                                  | 2022-08-22 | Cartographic generalization, Geographic information retrieval, GIS, Moving objects, Spatio-temporal data, Trajectory data
+       3 | SDH 2022 – Spatial Data Handling                                                                        | 2022-08-03 | Cartographic generalization, Location-based services, Moving objects, Quadtree, Spatial indexing
+      65 | International Conference on Information Systems 2022                                                    | 2022-03-28 | Cartographic generalization, Moving objects
+      89 | BDA 2021                                                                                                | 2021-10-06 | Cartographic generalization, Location-based services, R-tree, Remote sensing data, Spatial databases, Spatio-temporal data
+     108 | ER 2021                                                                                                 | 2021-09-12 | Trajectory data
+       2 | SDH 2021 – Spatial Data Handling                                                                        | 2021-04-24 | Cartographic generalization, Geographic information retrieval, GIS, Location-based services, Remote sensing data, Spatial databases, Spatial indexing, Spatio-temporal data, Trajectory data
+     205 | Workshop on Cartographic generalization @ SDH 2021                                                      | 2021-04-23 | Cartographic generalization, GIS, Quadtree, Spatial databases, Spatio-temporal data
+      76 | Forum on GIScience 2021                                                                                 | 2021-04-03 | GIS, Quadtree, R-tree, Spatial indexing, Spatio-temporal data, Trajectory data
+     196 | Workshop on Trajectory data @ Forum on GIScience 2021                                                   | 2021-04-02 | Cartographic generalization, Quadtree
+     157 | International Conference on Data Science 2021 – Nantes                                                  | 2021-02-13 | Location-based services
+     203 | Workshop on GIS @ SDH 2020                                                                              | 2020-08-30 | Geographic information retrieval, GIS
+       1 | SDH 2020 – Spatial Data Handling                                                                        | 2020-08-27 | Moving objects, Trajectory data
+     204 | Workshop on Remote sensing data @ SDH 2020                                                              | 2020-08-26 | Cartographic generalization, Geographic information retrieval, Spatio-temporal data
+      75 | Symposium on Information Systems 2020                                                                   | 2020-04-22 | Location-based services
+(55 rows)
+
+
+===== REQUÊTE 4 : conférences qui intéressent l'utilisateur 'alice' =====
+ id_conf |                                                intitule                                                 | date_debut | statut  |                                                                                    themes_correspondants                                                                                     
+---------+---------------------------------------------------------------------------------------------------------+------------+---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      87 | European Days on GIScience 2027                                                                         | 2027-09-09 | à venir | Cartographic generalization, Geographic information retrieval, R-tree, Spatial databases, Spatio-temporal data
+     202 | Workshop on Geographic information retrieval @ European Days on GIScience 2027                          | 2027-09-08 | à venir | R-tree, Spatio-temporal data
+       8 | SDH 2027 – Spatial Data Handling                                                                        | 2027-07-19 | à venir | Cartographic generalization, Geographic information retrieval, GIS, Location-based services, Moving objects, Quadtree, Remote sensing data, Spatial databases, Spatio-temporal data
+      39 | European Days on Database Systems 2027                                                                  | 2027-03-22 | à venir | Spatio-temporal data
+      68 | European Days on Big Data Analytics 2027                                                                | 2027-02-05 | à venir | Spatial databases
+     137 | International Conference on Big Data Analytics 2027                                                     | 2027-01-29 | à venir | Spatial databases
+      10 | EDBT 2026                                                                                               | 2026-11-05 | passée  | R-tree
+      57 | European Days on Spatial Information 2026 – Lyon                                                        | 2026-11-02 | passée  | Cartographic generalization, Geographic information retrieval, GIS, Remote sensing data, Spatial databases, Trajectory data
+     189 | Workshop on Spatio-temporal data @ European Days on Spatial Information 2026                            | 2026-11-01 | passée  | Spatial databases
+     150 | Symposium on Location Intelligence 2026                                                                 | 2026-10-11 | passée  | Cartographic generalization, Geographic information retrieval, GIS, Location-based services, Moving objects, Quadtree, R-tree, Remote sensing data, Spatial indexing
+      93 | Symposium on GIScience 2026                                                                             | 2026-10-08 | passée  | Geographic information retrieval, GIS, R-tree, Spatio-temporal data, Trajectory data
+      14 | Forum on GIScience 2026                                                                                 | 2026-10-07 | passée  | Moving objects, R-tree, Spatial indexing, Spatio-temporal data
+      20 | Forum on Database Systems 2026 – Amsterdam                                                              | 2026-09-20 | passée  | Spatio-temporal data
+       7 | SDH 2026 – Spatial Data Handling                                                                        | 2026-09-18 | passée  | Geographic information retrieval, GIS, R-tree, Remote sensing data, Spatial databases, Trajectory data
+     176 | Workshop on Data lakes @ Symposium on Knowledge Management 2026                                         | 2026-09-09 | passée  | Location-based services
+     175 | Workshop on Geographic information retrieval @ International Conference on Geographic Data Science 2026 | 2026-06-12 | passée  | R-tree, Remote sensing data, Trajectory data
+     113 | International Conference on Geographic Data Science 2026                                                | 2026-06-10 | passée  | Cartographic generalization, Geographic information retrieval, GIS, Quadtree, R-tree, Remote sensing data, Spatio-temporal data, Trajectory data
+      44 | European Days on Spatial Information 2026                                                               | 2026-04-08 | passée  | GIS, Location-based services, Remote sensing data, Spatial indexing, Trajectory data
+       9 | CAISE 2026                                                                                              | 2026-02-10 | passée  | R-tree
+     201 | Workshop on Moving objects @ European Days on GIScience 2026                                            | 2026-02-03 | passée  | Cartographic generalization, Spatial databases, Spatio-temporal data
+      81 | European Days on GIScience 2026                                                                         | 2026-01-30 | passée  | GIS, Location-based services, Moving objects, Quadtree, R-tree, Remote sensing data, Spatial indexing, Trajectory data
+     191 | Workshop on R-tree @ International Conference on Spatial Information 2025                               | 2025-11-12 | passée  | Location-based services, Moving objects, Remote sensing data, Spatial indexing, Trajectory data
+      77 | International Conference on Spatial Information 2025                                                    | 2025-11-07 | passée  | Moving objects, Remote sensing data, Spatial databases, Spatio-temporal data
+      67 | ER 2025                                                                                                 | 2025-10-10 | passée  | Location-based services, Moving objects, R-tree, Remote sensing data, Spatio-temporal data
+       6 | SDH 2025 – Spatial Data Handling                                                                        | 2025-05-30 | passée  | Cartographic generalization, Geographic information retrieval, GIS, Moving objects, Quadtree, R-tree, Spatial databases, Trajectory data
+      86 | Forum on Spatial Information 2025                                                                       | 2025-04-08 | passée  | Cartographic generalization, Quadtree, Remote sensing data, Trajectory data
+     101 | BDA 2025                                                                                                | 2025-04-05 | passée  | GIS, Location-based services, Spatial databases
+     117 | VLDB 2024                                                                                               | 2024-09-28 | passée  | Location-based services, R-tree, Spatial databases, Spatial indexing, Trajectory data
+     199 | Workshop on Moving objects @ VLDB 2024                                                                  | 2024-09-27 | passée  | Cartographic generalization, Moving objects, Spatial databases, Spatio-temporal data
+     126 | International Conference on Data Engineering 2024                                                       | 2024-09-24 | passée  | Remote sensing data
+     160 | Forum on Information Systems 2024                                                                       | 2024-09-14 | passée  | Spatial indexing
+     112 | BDA 2024                                                                                                | 2024-09-05 | passée  | Location-based services
+     164 | Workshop on Cartographic generalization @ SDH 2024                                                      | 2024-08-05 | passée  | GIS, Location-based services, Moving objects, R-tree, Spatio-temporal data
+       5 | SDH 2024 – Spatial Data Handling                                                                        | 2024-08-02 | passée  | GIS, Location-based services, Quadtree, Spatial databases, Trajectory data
+      30 | DEXA 2024                                                                                               | 2024-04-02 | passée  | Cartographic generalization, R-tree, Spatial indexing, Trajectory data
+     131 | International Conference on Location Intelligence 2023                                                  | 2023-11-15 | passée  | GIS, Location-based services, Quadtree, Spatial databases, Spatial indexing, Trajectory data
+      26 | International Conference on Database Systems 2023                                                       | 2023-10-15 | passée  | GIS
+       4 | SDH 2023 – Spatial Data Handling                                                                        | 2023-09-10 | passée  | Location-based services, Quadtree, Spatial databases, Spatio-temporal data
+     103 | BDA 2023                                                                                                | 2023-06-24 | passée  | GIS, Moving objects, Remote sensing data, Spatio-temporal data
+     174 | Workshop on Remote sensing data @ BDA 2023                                                              | 2023-06-23 | passée  | Geographic information retrieval, Spatial databases
+     122 | VLDB 2022                                                                                               | 2022-08-30 | passée  | Moving objects
+     147 | International Conference on Location Intelligence 2022                                                  | 2022-08-22 | passée  | Cartographic generalization, Geographic information retrieval, GIS, Moving objects, Spatio-temporal data, Trajectory data
+       3 | SDH 2022 – Spatial Data Handling                                                                        | 2022-08-03 | passée  | Cartographic generalization, Location-based services, Moving objects, Quadtree, Spatial indexing
+      65 | International Conference on Information Systems 2022                                                    | 2022-03-28 | passée  | Cartographic generalization, Moving objects
+      89 | BDA 2021                                                                                                | 2021-10-06 | passée  | Cartographic generalization, Location-based services, R-tree, Remote sensing data, Spatial databases, Spatio-temporal data
+     108 | ER 2021                                                                                                 | 2021-09-12 | passée  | Trajectory data
+       2 | SDH 2021 – Spatial Data Handling                                                                        | 2021-04-24 | passée  | Cartographic generalization, Geographic information retrieval, GIS, Location-based services, Remote sensing data, Spatial databases, Spatial indexing, Spatio-temporal data, Trajectory data
+     205 | Workshop on Cartographic generalization @ SDH 2021                                                      | 2021-04-23 | passée  | Cartographic generalization, GIS, Quadtree, Spatial databases, Spatio-temporal data
+      76 | Forum on GIScience 2021                                                                                 | 2021-04-03 | passée  | GIS, Quadtree, R-tree, Spatial indexing, Spatio-temporal data, Trajectory data
+     196 | Workshop on Trajectory data @ Forum on GIScience 2021                                                   | 2021-04-02 | passée  | Cartographic generalization, Quadtree
+     157 | International Conference on Data Science 2021 – Nantes                                                  | 2021-02-13 | passée  | Location-based services
+     203 | Workshop on GIS @ SDH 2020                                                                              | 2020-08-30 | passée  | Geographic information retrieval, GIS
+       1 | SDH 2020 – Spatial Data Handling                                                                        | 2020-08-27 | passée  | Moving objects, Trajectory data
+     204 | Workshop on Remote sensing data @ SDH 2020                                                              | 2020-08-26 | passée  | Cartographic generalization, Geographic information retrieval, Spatio-temporal data
+      75 | Symposium on Information Systems 2020                                                                   | 2020-04-22 | passée  | Location-based services
+(55 rows)
+
+
+===== REQUÊTE 5 : conférences de la série 'SDH' =====
+ id_conf |             intitule             | date_debut |        lieu        |             organisme             | nom_editeur 
+---------+----------------------------------+------------+--------------------+-----------------------------------+-------------
+       1 | SDH 2020 – Spatial Data Handling | 2020-08-27 | Toulouse (France)  | Université de Toulouse            | IEEE
+       2 | SDH 2021 – Spatial Data Handling | 2021-04-24 | Lyon (France)      | Université Claude Bernard Lyon 1  | IEEE
+       3 | SDH 2022 – Spatial Data Handling | 2022-08-03 | Madrid (Espagne)   | Universidad Politécnica de Madrid | Springer
+       4 | SDH 2023 – Spatial Data Handling | 2023-09-10 | Madrid (Espagne)   | Universidad Politécnica de Madrid | IEEE
+       5 | SDH 2024 – Spatial Data Handling | 2024-08-02 | Rome (Italie)      | Sapienza Università di Roma       | IEEE
+       6 | SDH 2025 – Spatial Data Handling | 2025-05-30 | Sydney (Australie) | University of Sydney              | Springer
+       7 | SDH 2026 – Spatial Data Handling | 2026-09-18 | Lyon (France)      | École Centrale de Lyon            | Springer
+       8 | SDH 2027 – Spatial Data Handling | 2027-07-19 | Munich (Allemagne) | TU München                        | Springer
+(8 rows)
+
+
+===== REQUÊTE 6 : workshops de la conférence n° 1 =====
+ id_workshop |                  workshop                  | workshop_debut | workshop_fin |         conference_mere          |      position       
+-------------+--------------------------------------------+----------------+--------------+----------------------------------+---------------------
+         204 | Workshop on Remote sensing data @ SDH 2020 | 2020-08-26     | 2020-08-26   | SDH 2020 – Spatial Data Handling | avant la conférence
+         203 | Workshop on GIS @ SDH 2020                 | 2020-08-30     | 2020-08-30   | SDH 2020 – Spatial Data Handling | après la conférence
+(2 rows)
+
+
+===== REQUÊTE 7 : conférences publiées par 'Springer' =====
+ id_conf |                                    intitule                                    | date_debut | serie_sigle 
+---------+--------------------------------------------------------------------------------+------------+-------------
+      99 | ER 2027                                                                        | 2027-10-10 | ER
+      87 | European Days on GIScience 2027                                                | 2027-09-09 | -
+     202 | Workshop on Geographic information retrieval @ European Days on GIScience 2027 | 2027-09-08 | -
+       8 | SDH 2027 – Spatial Data Handling                                               | 2027-07-19 | SDH
+     166 | Workshop on Deep learning @ Symposium on Database Systems 2027                 | 2027-06-19 | -
+      53 | Symposium on Database Systems 2027                                             | 2027-06-16 | -
+     197 | Workshop on Graph databases @ Symposium on Knowledge Management 2027           | 2027-05-06 | -
+     146 | Symposium on Knowledge Management 2027                                         | 2027-05-03 | -
+       7 | SDH 2026 – Spatial Data Handling                                               | 2026-09-18 | SDH
+     134 | European Days on Knowledge Management 2026 – São Paulo                         | 2026-07-31 | -
+      22 | Symposium on Knowledge Management 2026                                         | 2026-03-13 | -
+       6 | SDH 2025 – Spatial Data Handling                                               | 2025-05-30 | SDH
+     101 | BDA 2025                                                                       | 2025-04-05 | BDA
+     144 | Symposium on Big Data Analytics 2024                                           | 2024-03-31 | -
+       3 | SDH 2022 – Spatial Data Handling                                               | 2022-08-03 | SDH
+     159 | Symposium on Temporal Reasoning 2022                                           | 2022-07-18 | -
+     124 | Forum on Knowledge Management 2021                                             | 2021-10-05 | -
+      47 | VLDB 2021                                                                      | 2021-08-31 | VLDB
+      36 | EDBT 2020                                                                      | 2020-10-24 | EDBT
+     180 | Workshop on Entity-relationship model @ EDBT 2020                              | 2020-10-23 | -
+      80 | Forum on Temporal Reasoning 2020                                               | 2020-10-01 | -
+      32 | VLDB 2020                                                                      | 2020-08-29 | VLDB
+(22 rows)
+
+
+===== REQUÊTE 8 : utilisateurs qui ont aussi été responsables =====
+     login      |    utilisateur     |             email             | nb_conferences |                                               roles                                               
+----------------+--------------------+-------------------------------+----------------+---------------------------------------------------------------------------------------------------
+ mmogherini17   | Martin Mogherini   | martin.mogherini@uni.edu      |             16 | Program Committee chair, Program Committee member
+ moliboni276    | Matthew Oliboni    | matthew.oliboni@research.org  |             15 | General chair, Program Committee member
+ abien175       | Aitana Bien        | aitana.bien@lab.eu            |             14 | Poster chair, Program Committee chair, Program Committee member
+ alice          | Alice Martin       | alice.martin@univ-lyon.fr     |             14 | Program Committee member
+ kclement251    | Karen Clément      | karen.clement@lab.eu          |             12 | General chair, Industrial session chair, Program Committee member, Steering Committee
+ rgomila45      | Ronald Gomila      | ronald.gomila@uni.edu         |             12 | General chair, Program Committee chair, Program Committee member
+ fvento306      | Feliciano Vento    | feliciano.vento@ec-lyon.fr    |             12 | General chair, Poster chair, Program Committee chair, Program Committee member, Publication chair
+ salvarez252    | Socorro Alvarez    | socorro.alvarez@lab.eu        |             11 | General chair, Program Committee member, Publication chair
+ santunez242    | Serafina Antúnez   | serafina.antunez@uni.edu      |             11 | General chair, Program Committee member
+ fcannon155     | Filippo Cannon     | filippo.cannon@research.org   |             11 | Program Committee member, Steering Committee
+ cgillespie210  | Courtney Gillespie | courtney.gillespie@ec-lyon.fr |             11 | General chair, Program Committee chair, Program Committee member, Publication chair
+ eruiz217       | Emelina Ruiz       | emelina.ruiz@univ-lyon.fr     |             11 | Program Committee chair, Program Committee member
+ lbejarano311   | Laura Bejarano     | laura.bejarano@uni.edu        |             10 | Program Committee member
+ rdonaldson204  | Rómulo Donaldson   | romulo.donaldson@research.org |             10 | General chair, Poster chair, Program Committee member
+ vmason87       | Vito Mason         | vito.mason@lab.eu             |             10 | General chair, Program Committee chair, Program Committee member, Publication chair
+ anohlmans68    | Auguste Nohlmans   | auguste.nohlmans@uni.edu      |             10 | General chair, Industrial session chair, Program Committee member, Publication chair
+ babbagnale16   | Baldur Abbagnale   | baldur.abbagnale@univ-lyon.fr |              9 | General chair, Program Committee member
+ mcuesta115     | Mirco Cuesta       | mirco.cuesta@lab.eu           |              9 | Program Committee member
+ lmitschke282   | Laureano Mitschke  | laureano.mitschke@ec-lyon.fr  |              9 | Program Committee member
+ dhentschel202  | Dustin Hentschel   | dustin.hentschel@univ-lyon.fr |              8 | General chair, Program Committee chair, Program Committee member, Workshop chair
+ mrousseau278   | Marcelle Rousseau  | marcelle.rousseau@ec-lyon.fr  |              8 | General chair, Program Committee member
+ ibodin226      | Inès Bodin         | ines.bodin@univ-lyon.fr       |              7 | Program Committee chair, Program Committee member
+ fchauvet142    | Freddy Chauvet     | freddy.chauvet@uni.edu        |              7 | Industrial session chair, Program Committee member
+ kmontanelli183 | Kevin Montanelli   | kevin.montanelli@uni.edu      |              5 | Program Committee member, Publication chair
+ aabad291       | Amleto Abad        | amleto.abad@uni.edu           |              3 | Program Committee member, Steering Committee
+(25 rows)
+
+
+===== REQUÊTE 9 : conférences dont 'Jean' 'Dupont' a été responsable =====
+ id_conf |                                 intitule                                  | date_debut |                  roles                  
+---------+---------------------------------------------------------------------------+------------+-----------------------------------------
+       8 | SDH 2027 – Spatial Data Handling                                          | 2027-07-19 | Program Committee member
+       7 | SDH 2026 – Spatial Data Handling                                          | 2026-09-18 | General chair, Program Committee member
+      81 | European Days on GIScience 2026                                           | 2026-01-30 | Program Committee member
+     191 | Workshop on R-tree @ International Conference on Spatial Information 2025 | 2025-11-12 | Program Committee member
+     170 | Workshop on Access control @ ICDE 2025                                    | 2025-07-29 | Program Committee member
+      90 | Forum on Data and Knowledge Engineering 2025                              | 2025-06-14 | Program Committee member
+       6 | SDH 2025 – Spatial Data Handling                                          | 2025-05-30 | Program Committee member
+       5 | SDH 2024 – Spatial Data Handling                                          | 2024-08-02 | General chair, Program Committee member
+       4 | SDH 2023 – Spatial Data Handling                                          | 2023-09-10 | Program Committee member
+       3 | SDH 2022 – Spatial Data Handling                                          | 2022-08-03 | General chair, Program Committee member
+       2 | SDH 2021 – Spatial Data Handling                                          | 2021-04-24 | Program Committee member
+      98 | International Conference on Database Systems 2020                         | 2020-09-23 | Program Committee member
+       1 | SDH 2020 – Spatial Data Handling                                          | 2020-08-27 | General chair, Program Committee member
+     184 | Workshop on Data anonymization @ European Days on Data Engineering 2020   | 2020-07-04 | Program Committee member
+(14 rows)
+

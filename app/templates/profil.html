@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block contenu %}
+<h3>Mon profil : {{ moi.personne.prenom }} {{ moi.personne.nom }}</h3>
+<p class="text-muted">{{ moi.personne.email }}</p>
+
+<div class="row">
+  <div class="col-md-4">
+    <h5>Mes thèmes d'intérêt</h5>
+    <form method="post" class="card card-body bg-white">
+      <div style="max-height: 400px; overflow-y: auto;">
+        {% for t in themes %}
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="themes" value="{{ t.id_theme }}"
+                 id="t{{ t.id_theme }}" {{ 'checked' if t.id_theme in mes_ids }}>
+          <label class="form-check-label" for="t{{ t.id_theme }}">{{ t.libelle }}</label>
+        </div>
+        {% endfor %}
+      </div>
+      <button class="btn btn-primary mt-3">Enregistrer mes thèmes</button>
+    </form>
+  </div>
+
+  <div class="col-md-8">
+    <h5>Conférences qui m'intéressent <span class="badge bg-secondary">{{ conferences|length }}</span></h5>
+    <p class="small text-muted">Selon mes thèmes et leurs sous-thèmes (requête 4).</p>
+    <table class="table table-sm bg-white">
+      <thead class="table-light"><tr><th>Conférence</th><th>Date</th><th>Statut</th><th>Thèmes</th></tr></thead>
+      {% for c in conferences %}
+      <tr><td><a href="{{ url_for('conference', id_conf=c.id_conf) }}">{{ c.intitule }}</a></td>
+          <td>{{ c.date_debut }}</td><td>{{ c.statut }}</td><td class="small">{{ c.themes }}</td></tr>
+      {% else %}<tr><td colspan="4" class="text-muted">Choisissez des thèmes à gauche.</td></tr>{% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

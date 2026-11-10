@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block contenu %}
+<h3>{{ 'Modifier' if conf.id_conf else 'Nouvelle' }} conférence</h3>
+<form method="post" class="card card-body bg-white">
+  <div class="mb-2">
+    <label class="form-label">Intitulé</label>
+    <input class="form-control" name="intitule" value="{{ conf.intitule or '' }}" required>
+  </div>
+  <div class="row mb-2">
+    <div class="col"><label class="form-label">Date de début</label>
+      <input class="form-control" type="date" name="date_debut" value="{{ conf.date_debut or '' }}" required></div>
+    <div class="col"><label class="form-label">Date de fin</label>
+      <input class="form-control" type="date" name="date_fin" value="{{ conf.date_fin or '' }}" required></div>
+  </div>
+  <div class="row mb-2">
+    <div class="col"><label class="form-label">Ville</label>
+      <select class="form-select" name="id_ville" required>
+        {% for v in villes %}<option value="{{ v.id_ville }}" {{ 'selected' if v.id_ville == conf.id_ville }}>{{ v.nom_ville }}</option>{% endfor %}
+      </select></div>
+    <div class="col"><label class="form-label">Organisme</label>
+      <select class="form-select" name="id_organisme" required>
+        {% for o in organismes %}<option value="{{ o.id_organisme }}" {{ 'selected' if o.id_organisme == conf.id_organisme }}>{{ o.nom }}</option>{% endfor %}
+      </select></div>
+  </div>
+  <div class="row mb-2">
+    <div class="col"><label class="form-label">Série (facultatif)</label>
+      <select class="form-select" name="id_serie"><option value="">—</option>
+        {% for s in series %}<option value="{{ s.id_serie }}" {{ 'selected' if s.id_serie == conf.id_serie }}>{{ s.sigle }}</option>{% endfor %}
+      </select></div>
+    <div class="col"><label class="form-label">Éditeur des actes (facultatif)</label>
+      <select class="form-select" name="id_editeur"><option value="">—</option>
+        {% for e in editeurs %}<option value="{{ e.id_editeur }}" {{ 'selected' if e.id_editeur == conf.id_editeur }}>{{ e.nom_editeur }}</option>{% endfor %}
+      </select></div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Texte introductif</label>
+    <textarea class="form-control" name="texte_introductif" rows="4" required>{{ conf.texte_introductif or '' }}</textarea>
+  </div>
+  <div><button class="btn btn-primary">Enregistrer</button>
+    <a class="btn btn-link" href="{{ url_for('conferences') }}">Annuler</a></div>
+</form>
+{% endblock %}

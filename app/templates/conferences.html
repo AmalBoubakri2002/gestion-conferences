@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block contenu %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>Conférences <span class="badge bg-secondary">{{ conferences|length }}</span></h3>
+  <form class="d-flex" method="get">
+    <input class="form-control me-2" name="q" value="{{ q }}" placeholder="Rechercher un intitulé">
+    <button class="btn btn-outline-primary">Rechercher</button>
+  </form>
+</div>
+
+<table class="table table-hover bg-white">
+  <thead class="table-light">
+    <tr><th>Intitulé</th><th>Dates</th><th>Lieu</th><th>Série</th><th>Type</th></tr>
+  </thead>
+  <tbody>
+  {% for c in conferences %}
+    <tr>
+      <td><a href="{{ url_for('conference', id_conf=c.id_conf) }}">{{ c.intitule }}</a></td>
+      <td>{{ c.date_debut }} → {{ c.date_fin }}</td>
+      <td>{{ c.nom_ville }} ({{ c.nom_pays }})</td>
+      <td>{{ c.serie_sigle or '' }}</td>
+      <td>{% if c.est_workshop %}<span class="badge bg-info">Workshop</span>{% endif %}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

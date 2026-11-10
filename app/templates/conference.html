@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block contenu %}
+<div class="d-flex justify-content-between align-items-start">
+  <div>
+    <h3>{{ c.intitule }} {% if c.est_workshop %}<span class="badge bg-info">Workshop</span>{% endif %}</h3>
+    <p class="text-muted">
+      Du {{ c.date_debut }} au {{ c.date_fin }} · {{ c.nom_ville }} ({{ c.nom_pays }})<br>
+      Organisé par {{ c.organisme }}
+      {% if c.serie_sigle %} · Série {{ c.serie_sigle }}{% endif %}
+      {% if c.nom_editeur %} · Actes : {{ c.nom_editeur }}{% endif %}
+      {% if c.id_conf_mere %} · <a href="{{ url_for('conference', id_conf=c.id_conf_mere) }}">Conférence mère</a>{% endif %}
+    </p>
+  </div>
+  {% if session.role == 'admin' %}
+  <div>
+    <a class="btn btn-outline-primary btn-sm" href="{{ url_for('conference_modifier', id_conf=c.id_conf) }}">Modifier</a>
+    <form class="d-inline" method="post" action="{{ url_for('conference_supprimer', id_conf=c.id_conf) }}"
+          onsubmit="return confirm('Supprimer cette conférence et toutes ses sessions ?');">
+      <button class="btn btn-outline-danger btn-sm">Supprimer</button>
+    </form>
+  </div>
+  {% endif %}
+</div>
+<p>{{ c.texte_introductif }}</p>
+
+<div class="row">
+  <div class="col-md-7">
+    <h5>Sessions</h5>
+    <ul class="list-group mb-4">
+      {% for s in sessions %}
+      <li class="list-group-item"><b>{{ s.intitule_session }}</b><br>
+        <small class="text-muted">Thèmes : {{ s.themes or '—' }}</small></li>
+      {% else %}<li class="list-group-item text-muted">Aucune session</li>{% endfor %}
+    </ul>
+
+    <h5>Appel à communication</h5>
+    <table class="table table-sm bg-white mb-4">
+      <thead class="table-light"><tr><th>Catégorie</th><th>Pages max</th><th>Soumission</th><th>Notification</th><th>Version finale</th></tr></thead>
+      {% for s in specifications %}
+      <tr><td>{{ s.categorie }}</td><td>{{ s.nb_pages_max or '—' }}</td><td>{{ s.date_limite_soumission }}</td>
+          <td>{{ s.date_notification }}</td><td>{{ s.date_limite_version_finale }}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div class="col-md-5">
+    <h5>Responsables et comité de programme</h5>
+    <ul class="list-group mb-4">
+      {% for r in responsables %}
+      <li class="list-group-item">{{ r.prenom }} {{ r.nom }} <br><small class="text-muted">{{ r.roles }}</small></li>
+      {% endfor %}
+    </ul>
+    {% if workshops %}
+    <h5>Workshops associés</h5>
+    <ul class="list-group">
+      {% for w in workshops %}
+      <li class="list-group-item"><a href="{{ url_for('conference', id_conf=w.id_workshop) }}">{{ w.workshop }}</a>
+        <small class="text-muted">({{ w.workshop_debut }})</small></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block contenu %}
+<div class="row justify-content-center">
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h4 class="mb-3">Connexion</h4>
+        <form method="post">
+          <input class="form-control mb-2" name="login" placeholder="Login" required>
+          <input class="form-control mb-3" name="mot_de_passe" type="password" placeholder="Mot de passe" required>
+          <button class="btn btn-primary w-100">Se connecter</button>
+        </form>
+        <p class="text-muted small mt-3 mb-0">
+          Comptes de démonstration : <b>admin</b> / admin123 · <b>alice</b> / alice123
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

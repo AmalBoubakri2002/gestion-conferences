@@ -1,0 +1,6 @@
+psycopg2-binary>=2.9
+Faker>=25.0
+Werkzeug>=3.0
+jupyter>=1.0
+Flask>=3.0
+Flask-SQLAlchemy>=3.1

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block contenu %}
+<h3>Les 9 requêtes du sujet</h3>
+
+<ul class="nav nav-pills mb-3">
+  {% for n, r in requetes.items() %}
+  <li class="nav-item"><a class="nav-link {{ 'active' if n == num }}" href="{{ url_for('requetes', num=n) }}" title="{{ r.titre }}">R{{ n }}</a></li>
+  {% endfor %}
+</ul>
+
+<h5>R{{ num }} – {{ req.titre }}</h5>
+
+{% if valeurs %}
+<form class="row g-2 mb-3" method="get">
+  {% for p, v in valeurs.items() %}
+  <div class="col-auto">
+    <label class="form-label small mb-0">{{ p }}</label>
+    <input class="form-control" name="{{ p }}" value="{{ v }}">
+  </div>
+  {% endfor %}
+  <div class="col-auto align-self-end"><button class="btn btn-primary">Exécuter</button></div>
+</form>
+{% endif %}
+
+<p class="text-muted">{{ resultat|length }} ligne(s)</p>
+{% if resultat %}
+<table class="table table-sm table-striped bg-white">
+  <thead class="table-light"><tr>{% for col in resultat[0].keys() %}<th>{{ col }}</th>{% endfor %}</tr></thead>
+  {% for ligne in resultat %}
+  <tr>{% for col, val in ligne.items() %}
+    <td>{% if col == 'id_conf' %}<a href="{{ url_for('conference', id_conf=val) }}">{{ val }}</a>{% else %}{{ val if val is not none else '' }}{% endif %}</td>
+  {% endfor %}</tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<details class="mt-3"><summary>Voir le SQL</summary><pre class="bg-white p-2 border">{{ req.sql }}</pre></details>
+{% endblock %}
