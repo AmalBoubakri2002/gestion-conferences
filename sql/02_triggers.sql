@@ -1,5 +1,4 @@
 -- =====================================================================
---  MOD 11.1 - Projet 4 : Gestion des conférences
 --  Fichier 02_triggers.sql : fonctions et triggers
 --  But : imposer les contraintes d'intégrité qui portent sur PLUSIEURS
 --        tables et ne peuvent donc pas s'écrire avec un simple CHECK.
@@ -33,7 +32,7 @@ BEGIN
 END;
 $$;
 
-CREATE TRIGGER trg_evalue_membre_pc
+CREATE OR REPLACE TRIGGER trg_evalue_membre_pc
 BEFORE INSERT OR UPDATE ON evalue
 FOR EACH ROW
 EXECUTE FUNCTION fn_check_evaluateur_membre_pc();
@@ -61,11 +60,18 @@ BEGIN
             'CI-1 : impossible de retirer la personne % du comité de programme de la conférence % : elle évalue encore des sessions.',
             OLD.id_personne, OLD.id_conf;
     END IF;
+
+    -- Trigger BEFORE : la ligne renvoyée est celle qui sera enregistrée.
+    -- Pour un UPDATE il faut renvoyer NEW (renvoyer OLD annulerait la
+    -- modification sans aucun message d'erreur).
+    IF TG_OP = 'UPDATE' THEN
+        RETURN NEW;
+    END IF;
     RETURN OLD;
 END;
 $$;
 
-CREATE TRIGGER trg_membre_pc_retrait
+CREATE OR REPLACE TRIGGER trg_membre_pc_retrait
 BEFORE DELETE OR UPDATE ON membre_pc
 FOR EACH ROW
 EXECUTE FUNCTION fn_check_retrait_membre_pc();
@@ -116,10 +122,29 @@ BEGIN
 END;
 $$;
 
-CREATE TRIGGER trg_workshop_coherence
+CREATE OR REPLACE TRIGGER trg_workshop_coherence
 BEFORE INSERT OR UPDATE ON workshop
 FOR EACH ROW
 EXECUTE FUNCTION fn_check_workshop();
+
+-- CI-2 (suite) : supprimer une conférence supprime aussi ses workshops.
+-- Sans ce trigger, la clé étrangère ne supprime que le LIEN (table
+-- workshop) : l'ancien workshop resterait comme une conférence ordinaire.
+CREATE OR REPLACE FUNCTION fn_supprimer_workshops()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    DELETE FROM conference
+    WHERE id_conf IN (SELECT id_conf FROM workshop WHERE id_conf_mere = OLD.id_conf);
+    RETURN OLD;   -- on poursuit la suppression de la conférence mère
+END;
+$$;
+
+CREATE OR REPLACE TRIGGER trg_conference_supprimer_workshops
+BEFORE DELETE ON conference
+FOR EACH ROW
+EXECUTE FUNCTION fn_supprimer_workshops();
 
 
 -- =====================================================================
@@ -147,10 +172,60 @@ BEGIN
 END;
 $$;
 
-CREATE TRIGGER trg_specification_dates
+CREATE OR REPLACE TRIGGER trg_specification_dates
 BEFORE INSERT OR UPDATE ON specification
 FOR EACH ROW
 EXECUTE FUNCTION fn_check_specification_dates();
+
+
+-- =====================================================================
+-- CI-2c et CI-3 (suite) : quand on MODIFIE les dates d'une conférence,
+-- on revérifie :
+--   - CI-3  : ses échéances restent avant son premier jour ;
+--   - CI-2c : ses workshops (ou sa conférence mère) restent à 7 jours max.
+-- Trigger AFTER : la table contient déjà les nouvelles dates. Il est
+-- exécuté en fin d'instruction : un seul UPDATE peut donc déplacer une
+-- conférence ET ses workshops en même temps.
+-- =====================================================================
+CREATE OR REPLACE FUNCTION fn_check_dates_conference()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    -- CI-3
+    IF EXISTS (
+        SELECT 1
+        FROM specification s
+        WHERE s.id_conf = NEW.id_conf
+          AND s.date_limite_version_finale >= NEW.date_debut
+    ) THEN
+        RAISE EXCEPTION
+            'CI-3 : la conférence % ne peut pas commencer le % : une date limite de version finale serait postérieure.',
+            NEW.id_conf, NEW.date_debut;
+    END IF;
+
+    -- CI-2c (la conférence modifiée peut être le workshop OU la mère)
+    IF EXISTS (
+        SELECT 1
+        FROM workshop w
+        JOIN conference cw ON cw.id_conf = w.id_conf
+        JOIN conference cm ON cm.id_conf = w.id_conf_mere
+        WHERE NEW.id_conf IN (w.id_conf, w.id_conf_mere)
+          AND (cw.date_debut < cm.date_debut - 7 OR cw.date_fin > cm.date_fin + 7)
+    ) THEN
+        RAISE EXCEPTION
+            'CI-2c : nouvelles dates de la conférence % refusées : un workshop serait à plus de 7 jours de sa conférence mère.',
+            NEW.id_conf;
+    END IF;
+
+    RETURN NULL;   -- valeur ignorée pour un trigger AFTER
+END;
+$$;
+
+CREATE OR REPLACE TRIGGER trg_conference_dates
+AFTER UPDATE OF date_debut, date_fin ON conference
+FOR EACH ROW
+EXECUTE FUNCTION fn_check_dates_conference();
 
 
 -- =====================================================================
@@ -187,14 +262,14 @@ BEGIN
 END;
 $$;
 
-CREATE TRIGGER trg_theme_cycle
+CREATE OR REPLACE TRIGGER trg_theme_cycle
 BEFORE INSERT OR UPDATE OF id_theme_parent ON theme
 FOR EACH ROW
 EXECUTE FUNCTION fn_check_theme_cycle();
 
 
 -- =====================================================================
--- Fonction utilitaire (sera utilisée par la requête 3) :
+-- Fonction utilitaire (utilisée par la requête 3) :
 -- renvoie un thème et TOUS ses sous-thèmes (descendants), à partir
 -- d'un mot-clé. Ex : fn_themes_descendants('spatial') renvoie
 -- "Spatial databases", "GIS", "R-tree", "Spatial indexing"...

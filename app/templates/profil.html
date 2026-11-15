@@ -1,35 +1,75 @@
 {% extends 'base.html' %}
 {% block contenu %}
-<h3>Mon profil : {{ moi.personne.prenom }} {{ moi.personne.nom }}</h3>
-<p class="text-muted">{{ moi.personne.email }}</p>
-
-<div class="row">
-  <div class="col-md-4">
-    <h5>Mes thèmes d'intérêt</h5>
-    <form method="post" class="card card-body bg-white">
-      <div style="max-height: 400px; overflow-y: auto;">
-        {% for t in themes %}
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="themes" value="{{ t.id_theme }}"
-                 id="t{{ t.id_theme }}" {{ 'checked' if t.id_theme in mes_ids }}>
-          <label class="form-check-label" for="t{{ t.id_theme }}">{{ t.libelle }}</label>
-        </div>
-        {% endfor %}
+<!-- Identité -->
+<div class="card mb-4">
+  <div class="card-body p-4 d-flex align-items-center gap-3">
+    <span class="avatar avatar-lg">{{ moi.personne.prenom[:1] }}{{ moi.personne.nom[:1] }}</span>
+    <div>
+      <h2 class="page-title mb-1">{{ moi.personne.prenom }} {{ moi.personne.nom }}</h2>
+      <div class="text-muted small">
+        <i class="bi bi-envelope me-1"></i>{{ moi.personne.email }}
+        <i class="bi bi-person-badge ms-3 me-1"></i>{{ moi.login }}
       </div>
-      <button class="btn btn-primary mt-3">Enregistrer mes thèmes</button>
-    </form>
+    </div>
+    <span class="badge bg-primary-subtle text-primary-emphasis ms-auto">
+      {{ 'Administrateur' if moi.role == 'admin' else 'Utilisateur' }}</span>
+  </div>
+</div>
+
+<div class="row g-4">
+  <!-- Thèmes d'intérêt -->
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-header">
+        <i class="bi bi-tags me-2"></i>Mes thèmes d'intérêt
+        <span class="badge bg-secondary-subtle text-secondary-emphasis ms-1">{{ mes_ids|length }}</span>
+      </div>
+      <form method="post">
+        <div class="card-body scroll-list">
+          {% for t in themes %}
+          <div class="form-check mb-1">
+            <input class="form-check-input" type="checkbox" name="themes" value="{{ t.id_theme }}"
+                   id="t{{ t.id_theme }}" {{ 'checked' if t.id_theme in mes_ids }}>
+            <label class="form-check-label {{ 'fw-semibold' if t.id_theme_parent is none }}" for="t{{ t.id_theme }}">{{ t.libelle }}</label>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="card-footer bg-white p-3">
+          <button class="btn btn-primary w-100"><i class="bi bi-check2 me-1"></i>Enregistrer mes thèmes</button>
+        </div>
+      </form>
+    </div>
+    <p class="small text-muted mt-2 mb-0"><i class="bi bi-info-circle me-1"></i>En gras : thèmes principaux. Leurs sous-thèmes sont inclus automatiquement.</p>
   </div>
 
-  <div class="col-md-8">
-    <h5>Conférences qui m'intéressent <span class="badge bg-secondary">{{ conferences|length }}</span></h5>
-    <p class="small text-muted">Selon mes thèmes et leurs sous-thèmes (requête 4).</p>
-    <table class="table table-sm bg-white">
-      <thead class="table-light"><tr><th>Conférence</th><th>Date</th><th>Statut</th><th>Thèmes</th></tr></thead>
-      {% for c in conferences %}
-      <tr><td><a href="{{ url_for('conference', id_conf=c.id_conf) }}">{{ c.intitule }}</a></td>
-          <td>{{ c.date_debut }}</td><td>{{ c.statut }}</td><td class="small">{{ c.themes }}</td></tr>
-      {% else %}<tr><td colspan="4" class="text-muted">Choisissez des thèmes à gauche.</td></tr>{% endfor %}
-    </table>
+  <!-- Conférences correspondantes (requête 4) -->
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span><i class="bi bi-stars me-2"></i>Conférences qui m'intéressent</span>
+        <span class="badge bg-secondary-subtle text-secondary-emphasis">{{ conferences|length }}</span>
+      </div>
+      <div class="table-responsive scroll-list" style="max-height: 560px">
+        <table class="table table-hover table-app">
+          <thead><tr><th>Conférence</th><th>Date</th><th>Statut</th><th>Thèmes correspondants</th></tr></thead>
+          <tbody>
+          {% for c in conferences %}
+            <tr>
+              <td><a href="{{ url_for('conference', id_conf=c.id_conf) }}">{{ c.intitule }}</a></td>
+              <td class="text-nowrap">{{ c.date_debut|fmt }}</td>
+              <td>
+                {% if c.statut == 'à venir' %}<span class="badge bg-success-subtle text-success-emphasis">À venir</span>
+                {% else %}<span class="badge bg-light text-secondary border">Passée</span>{% endif %}
+              </td>
+              <td>{% for t in c.themes.split(', ') %}<span class="badge badge-theme me-1">{{ t }}</span>{% endfor %}</td>
+            </tr>
+          {% else %}
+            <tr><td colspan="4" class="text-center text-muted py-4">Choisissez des thèmes à gauche.</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

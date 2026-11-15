@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict TjpiTHYxsoBows22xMMtN2cSak6Yz5FQoDRLhUmqbQpG0bTiwyLCxh7H2rl6Ya4
+\restrict UkeOXfo9aStKdUycLWOkl6uI88byGT29qG40fhtGSHDK56SQNK1JfjINLKdf4X7
 
 -- Dumped from database version 17.11 (Homebrew)
 -- Dumped by pg_dump version 17.11 (Homebrew)
@@ -24,6 +24,45 @@ SET row_security = off;
 --
 
 CREATE SCHEMA conferences;
+
+
+--
+-- Name: fn_check_dates_conference(); Type: FUNCTION; Schema: conferences; Owner: -
+--
+
+CREATE FUNCTION conferences.fn_check_dates_conference() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    -- CI-3
+    IF EXISTS (
+        SELECT 1
+        FROM specification s
+        WHERE s.id_conf = NEW.id_conf
+          AND s.date_limite_version_finale >= NEW.date_debut
+    ) THEN
+        RAISE EXCEPTION
+            'CI-3 : la conférence % ne peut pas commencer le % : une date limite de version finale serait postérieure.',
+            NEW.id_conf, NEW.date_debut;
+    END IF;
+
+    -- CI-2c (la conférence modifiée peut être le workshop OU la mère)
+    IF EXISTS (
+        SELECT 1
+        FROM workshop w
+        JOIN conference cw ON cw.id_conf = w.id_conf
+        JOIN conference cm ON cm.id_conf = w.id_conf_mere
+        WHERE NEW.id_conf IN (w.id_conf, w.id_conf_mere)
+          AND (cw.date_debut < cm.date_debut - 7 OR cw.date_fin > cm.date_fin + 7)
+    ) THEN
+        RAISE EXCEPTION
+            'CI-2c : nouvelles dates de la conférence % refusées : un workshop serait à plus de 7 jours de sa conférence mère.',
+            NEW.id_conf;
+    END IF;
+
+    RETURN NULL;   -- valeur ignorée pour un trigger AFTER
+END;
+$$;
 
 
 --
@@ -72,6 +111,13 @@ BEGIN
         RAISE EXCEPTION
             'CI-1 : impossible de retirer la personne % du comité de programme de la conférence % : elle évalue encore des sessions.',
             OLD.id_personne, OLD.id_conf;
+    END IF;
+
+    -- Trigger BEFORE : la ligne renvoyée est celle qui sera enregistrée.
+    -- Pour un UPDATE il faut renvoyer NEW (renvoyer OLD annulerait la
+    -- modification sans aucun message d'erreur).
+    IF TG_OP = 'UPDATE' THEN
+        RETURN NEW;
     END IF;
     RETURN OLD;
 END;
@@ -172,6 +218,21 @@ BEGIN
     END IF;
 
     RETURN NEW;
+END;
+$$;
+
+
+--
+-- Name: fn_supprimer_workshops(); Type: FUNCTION; Schema: conferences; Owner: -
+--
+
+CREATE FUNCTION conferences.fn_supprimer_workshops() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    DELETE FROM conference
+    WHERE id_conf IN (SELECT id_conf FROM workshop WHERE id_conf_mere = OLD.id_conf);
+    RETURN OLD;   -- on poursuit la suppression de la conférence mère
 END;
 $$;
 
@@ -10047,6 +10108,20 @@ CREATE INDEX idx_workshop_mere ON conferences.workshop USING btree (id_conf_mere
 
 
 --
+-- Name: conference trg_conference_dates; Type: TRIGGER; Schema: conferences; Owner: -
+--
+
+CREATE TRIGGER trg_conference_dates AFTER UPDATE OF date_debut, date_fin ON conferences.conference FOR EACH ROW EXECUTE FUNCTION conferences.fn_check_dates_conference();
+
+
+--
+-- Name: conference trg_conference_supprimer_workshops; Type: TRIGGER; Schema: conferences; Owner: -
+--
+
+CREATE TRIGGER trg_conference_supprimer_workshops BEFORE DELETE ON conferences.conference FOR EACH ROW EXECUTE FUNCTION conferences.fn_supprimer_workshops();
+
+
+--
 -- Name: evalue trg_evalue_membre_pc; Type: TRIGGER; Schema: conferences; Owner: -
 --
 
@@ -10269,5 +10344,5 @@ ALTER TABLE ONLY conferences.workshop
 -- PostgreSQL database dump complete
 --
 
-\unrestrict TjpiTHYxsoBows22xMMtN2cSak6Yz5FQoDRLhUmqbQpG0bTiwyLCxh7H2rl6Ya4
+\unrestrict UkeOXfo9aStKdUycLWOkl6uI88byGT29qG40fhtGSHDK56SQNK1JfjINLKdf4X7
 

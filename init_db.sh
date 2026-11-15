@@ -1,8 +1,6 @@
 #!/bin/bash
 # =====================================================================
-#  MOD 11.1 - Projet 4 : (ré)initialise la base gestion_conferences
 #  Usage (depuis le dossier projet4) :  ./init_db.sh
-#  ATTENTION : supprime et recrée tout le schéma "conferences".
 # =====================================================================
 set -e                                    # s'arrête à la première erreur
 DB=gestion_conferences
@@ -18,4 +16,4 @@ done
 # Les tables du schéma "conferences" sont accessibles sans préfixe
 psql -d "$DB" -q -c "ALTER DATABASE $DB SET search_path TO conferences, public;"
 
-echo ">>> Base $DB initialisée : 19 tables, 5 triggers, 18 index, 8 vues."
+echo ">>> Base $DB initialisée : 19 tables, 7 triggers, 18 index, 8 vues."

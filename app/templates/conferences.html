@@ -1,27 +1,75 @@
 {% extends 'base.html' %}
 {% block contenu %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h3>Conférences <span class="badge bg-secondary">{{ conferences|length }}</span></h3>
-  <form class="d-flex" method="get">
-    <input class="form-control me-2" name="q" value="{{ q }}" placeholder="Rechercher un intitulé">
-    <button class="btn btn-outline-primary">Rechercher</button>
-  </form>
+{% set nb_workshops = conferences|selectattr('est_workshop')|list|length %}
+{% set nb_a_venir = conferences|selectattr('date_debut', 'ge', today)|list|length %}
+
+<div class="d-flex justify-content-between align-items-end mb-4">
+  <div>
+    <h2 class="page-title mb-1">Conférences</h2>
+    <p class="page-subtitle mb-0">Conférences et workshops enregistrés, des plus récents aux plus anciens.</p>
+  </div>
+  {% if session.role == 'admin' %}
+  <a class="btn btn-primary" href="{{ url_for('conference_creer') }}"><i class="bi bi-plus-lg me-1"></i>Nouvelle conférence</a>
+  {% endif %}
 </div>
 
-<table class="table table-hover bg-white">
-  <thead class="table-light">
-    <tr><th>Intitulé</th><th>Dates</th><th>Lieu</th><th>Série</th><th>Type</th></tr>
-  </thead>
-  <tbody>
-  {% for c in conferences %}
-    <tr>
-      <td><a href="{{ url_for('conference', id_conf=c.id_conf) }}">{{ c.intitule }}</a></td>
-      <td>{{ c.date_debut }} → {{ c.date_fin }}</td>
-      <td>{{ c.nom_ville }} ({{ c.nom_pays }})</td>
-      <td>{{ c.serie_sigle or '' }}</td>
-      <td>{% if c.est_workshop %}<span class="badge bg-info">Workshop</span>{% endif %}</td>
-    </tr>
+<!-- Chiffres clés -->
+<div class="row g-3 mb-4">
+  {% for libelle, valeur, icone, couleur in [
+       ('Total', conferences|length, 'collection', 'primary'),
+       ('Conférences', conferences|length - nb_workshops, 'easel', 'success'),
+       ('Workshops', nb_workshops, 'diagram-3', 'info'),
+       ('À venir', nb_a_venir, 'hourglass-split', 'warning')] %}
+  <div class="col-6 col-lg-3">
+    <div class="card">
+      <div class="card-body d-flex align-items-center gap-3">
+        <span class="stat-icon bg-{{ couleur }}-subtle text-{{ couleur }}-emphasis"><i class="bi bi-{{ icone }}"></i></span>
+        <div>
+          <div class="stat-value">{{ valeur }}</div>
+          <div class="small text-muted">{{ libelle }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
   {% endfor %}
-  </tbody>
-</table>
+</div>
+
+<!-- Liste -->
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span><i class="bi bi-list-ul me-2"></i>Liste des conférences</span>
+    <form method="get" style="width: 320px">
+      <div class="input-group input-group-sm">
+        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+        <input class="form-control" name="q" value="{{ q }}" placeholder="Rechercher un intitulé (ex : SDH)">
+      </div>
+    </form>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover table-app">
+      <thead>
+        <tr><th>Intitulé</th><th>Dates</th><th>Lieu</th><th>Série</th><th>Statut</th></tr>
+      </thead>
+      <tbody>
+      {% for c in conferences %}
+        <tr>
+          <td>
+            <a href="{{ url_for('conference', id_conf=c.id_conf) }}">{{ c.intitule }}</a>
+            {% if c.est_workshop %}<span class="badge bg-info-subtle text-info-emphasis ms-1">Workshop</span>{% endif %}
+          </td>
+          <td class="text-nowrap">{{ c.date_debut|fmt }} → {{ c.date_fin|fmt }}</td>
+          <td class="text-nowrap"><i class="bi bi-geo-alt text-muted me-1"></i>{{ c.nom_ville }}, {{ c.nom_pays }}</td>
+          <td>{% if c.serie_sigle %}<span class="badge bg-secondary-subtle text-secondary-emphasis">{{ c.serie_sigle }}</span>{% endif %}</td>
+          <td>
+            {% if c.date_debut >= today %}<span class="badge bg-success-subtle text-success-emphasis">À venir</span>
+            {% else %}<span class="badge bg-light text-secondary border">Passée</span>{% endif %}
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="5" class="text-center text-muted py-4">Aucune conférence trouvée.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock %}

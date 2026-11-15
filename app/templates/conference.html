@@ -1,63 +1,131 @@
 {% extends 'base.html' %}
 {% block contenu %}
-<div class="d-flex justify-content-between align-items-start">
-  <div>
-    <h3>{{ c.intitule }} {% if c.est_workshop %}<span class="badge bg-info">Workshop</span>{% endif %}</h3>
-    <p class="text-muted">
-      Du {{ c.date_debut }} au {{ c.date_fin }} · {{ c.nom_ville }} ({{ c.nom_pays }})<br>
-      Organisé par {{ c.organisme }}
-      {% if c.serie_sigle %} · Série {{ c.serie_sigle }}{% endif %}
-      {% if c.nom_editeur %} · Actes : {{ c.nom_editeur }}{% endif %}
-      {% if c.id_conf_mere %} · <a href="{{ url_for('conference', id_conf=c.id_conf_mere) }}">Conférence mère</a>{% endif %}
-    </p>
+<a href="{{ url_for('conferences') }}" class="small text-decoration-none d-inline-block mb-3">
+  <i class="bi bi-arrow-left me-1"></i>Retour aux conférences</a>
+
+<!-- En-tête de la conférence -->
+<div class="card mb-4">
+  <div class="card-body p-4">
+    <div class="d-flex justify-content-between align-items-start gap-3">
+      <div>
+        <div class="mb-2">
+          {% if c.est_workshop %}<span class="badge bg-info-subtle text-info-emphasis">Workshop</span>
+          {% else %}<span class="badge bg-primary-subtle text-primary-emphasis">Conférence</span>{% endif %}
+          {% if c.serie_sigle %}<span class="badge bg-secondary-subtle text-secondary-emphasis">Série {{ c.serie_sigle }}</span>{% endif %}
+          {% if c.date_debut >= today %}<span class="badge bg-success-subtle text-success-emphasis">À venir</span>{% endif %}
+        </div>
+        <h2 class="page-title mb-3">{{ c.intitule }}</h2>
+        <div class="d-flex flex-wrap gap-4 text-muted small">
+          <span><i class="bi bi-calendar-event me-1"></i>Du {{ c.date_debut|fmt }} au {{ c.date_fin|fmt }}</span>
+          <span><i class="bi bi-geo-alt me-1"></i>{{ c.nom_ville }}, {{ c.nom_pays }}</span>
+          <span><i class="bi bi-building me-1"></i>{{ c.organisme }}</span>
+          {% if c.nom_editeur %}<span><i class="bi bi-book me-1"></i>Actes : {{ c.nom_editeur }}</span>{% endif %}
+          {% if c.id_conf_mere %}<span><i class="bi bi-link-45deg me-1"></i>
+            <a href="{{ url_for('conference', id_conf=c.id_conf_mere) }}">Voir la conférence mère</a></span>{% endif %}
+        </div>
+      </div>
+      {% if session.role == 'admin' %}
+      <div class="d-flex gap-2 flex-shrink-0">
+        <a class="btn btn-outline-primary btn-sm" href="{{ url_for('conference_modifier', id_conf=c.id_conf) }}">
+          <i class="bi bi-pencil me-1"></i>Modifier</a>
+        <form method="post" action="{{ url_for('conference_supprimer', id_conf=c.id_conf) }}"
+              onsubmit="return confirm('Supprimer cette conférence et toutes ses sessions ?');">
+          <button class="btn btn-outline-danger btn-sm"><i class="bi bi-trash me-1"></i>Supprimer</button>
+        </form>
+      </div>
+      {% endif %}
+    </div>
+    <hr class="my-4">
+    <p class="mb-0">{{ c.texte_introductif }}</p>
   </div>
-  {% if session.role == 'admin' %}
-  <div>
-    <a class="btn btn-outline-primary btn-sm" href="{{ url_for('conference_modifier', id_conf=c.id_conf) }}">Modifier</a>
-    <form class="d-inline" method="post" action="{{ url_for('conference_supprimer', id_conf=c.id_conf) }}"
-          onsubmit="return confirm('Supprimer cette conférence et toutes ses sessions ?');">
-      <button class="btn btn-outline-danger btn-sm">Supprimer</button>
-    </form>
-  </div>
-  {% endif %}
 </div>
-<p>{{ c.texte_introductif }}</p>
 
-<div class="row">
-  <div class="col-md-7">
-    <h5>Sessions</h5>
-    <ul class="list-group mb-4">
-      {% for s in sessions %}
-      <li class="list-group-item"><b>{{ s.intitule_session }}</b><br>
-        <small class="text-muted">Thèmes : {{ s.themes or '—' }}</small></li>
-      {% else %}<li class="list-group-item text-muted">Aucune session</li>{% endfor %}
-    </ul>
+<div class="row g-4">
+  <div class="col-lg-8">
+    <!-- Sessions -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <i class="bi bi-collection me-2"></i>Sessions
+        <span class="badge bg-secondary-subtle text-secondary-emphasis ms-1">{{ sessions|length }}</span>
+      </div>
+      <ul class="list-group list-group-flush">
+        {% for s in sessions %}
+        <li class="list-group-item px-4 py-3">
+          <div class="fw-semibold mb-1"><span class="text-muted me-2">#{{ s.num_session }}</span>{{ s.intitule_session }}</div>
+          {% for t in (s.themes or '').split(', ') if t %}<span class="badge badge-theme me-1">{{ t }}</span>{% endfor %}
+        </li>
+        {% else %}
+        <li class="list-group-item px-4 text-muted">Aucune session</li>
+        {% endfor %}
+      </ul>
+    </div>
 
-    <h5>Appel à communication</h5>
-    <table class="table table-sm bg-white mb-4">
-      <thead class="table-light"><tr><th>Catégorie</th><th>Pages max</th><th>Soumission</th><th>Notification</th><th>Version finale</th></tr></thead>
-      {% for s in specifications %}
-      <tr><td>{{ s.categorie }}</td><td>{{ s.nb_pages_max or '—' }}</td><td>{{ s.date_limite_soumission }}</td>
-          <td>{{ s.date_notification }}</td><td>{{ s.date_limite_version_finale }}</td></tr>
-      {% endfor %}
-    </table>
+    <!-- Appel à communication -->
+    <div class="card">
+      <div class="card-header"><i class="bi bi-megaphone me-2"></i>Appel à communication</div>
+      <div class="table-responsive">
+        <table class="table table-app">
+          <thead>
+            <tr><th>Catégorie</th><th>Pages max</th><th>Mise en page</th>
+                <th>Soumission</th><th>Notification</th><th>Version finale</th></tr>
+          </thead>
+          <tbody>
+          {% for s in specifications %}
+            <tr>
+              <td class="fw-medium">{{ s.categorie }}</td>
+              <td>{{ s.nb_pages_max or '—' }}</td>
+              <td class="small text-muted">
+                {% if s.police %}{{ s.police }}, {{ s.taille_police }} pt · {{ s.logiciel }}{% else %}—{% endif %}
+              </td>
+              <td class="text-nowrap">
+                {{ s.date_limite_soumission|fmt }}
+                {% if s.soumission_ouverte %}<span class="badge bg-success-subtle text-success-emphasis ms-1">ouverte</span>{% endif %}
+              </td>
+              <td class="text-nowrap">{{ s.date_notification|fmt }}</td>
+              <td class="text-nowrap">{{ s.date_limite_version_finale|fmt }}</td>
+            </tr>
+          {% else %}
+            <tr><td colspan="6" class="text-center text-muted py-3">Aucune spécification</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
-  <div class="col-md-5">
-    <h5>Responsables et comité de programme</h5>
-    <ul class="list-group mb-4">
-      {% for r in responsables %}
-      <li class="list-group-item">{{ r.prenom }} {{ r.nom }} <br><small class="text-muted">{{ r.roles }}</small></li>
-      {% endfor %}
-    </ul>
+  <div class="col-lg-4">
+    <!-- Responsables et comité de programme -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <i class="bi bi-people me-2"></i>Responsables et comité
+        <span class="badge bg-secondary-subtle text-secondary-emphasis ms-1">{{ responsables|length }}</span>
+      </div>
+      <ul class="list-group list-group-flush scroll-list">
+        {% for r in responsables %}
+        <li class="list-group-item d-flex align-items-center gap-3 px-4">
+          <span class="avatar">{{ r.prenom[:1] }}{{ r.nom[:1] }}</span>
+          <div>
+            <div class="fw-medium">{{ r.prenom }} {{ r.nom }}</div>
+            <div class="small text-muted">{{ r.roles }}</div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Workshops associés -->
     {% if workshops %}
-    <h5>Workshops associés</h5>
-    <ul class="list-group">
-      {% for w in workshops %}
-      <li class="list-group-item"><a href="{{ url_for('conference', id_conf=w.id_workshop) }}">{{ w.workshop }}</a>
-        <small class="text-muted">({{ w.workshop_debut }})</small></li>
-      {% endfor %}
-    </ul>
+    <div class="card">
+      <div class="card-header"><i class="bi bi-diagram-3 me-2"></i>Workshops associés</div>
+      <ul class="list-group list-group-flush">
+        {% for w in workshops %}
+        <li class="list-group-item px-4">
+          <a class="text-decoration-none fw-medium" href="{{ url_for('conference', id_conf=w.id_workshop) }}">{{ w.workshop }}</a>
+          <div class="small text-muted"><i class="bi bi-calendar-event me-1"></i>{{ w.workshop_debut|fmt }}</div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
     {% endif %}
   </div>
 </div>

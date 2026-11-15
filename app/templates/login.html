@@ -1,18 +1,36 @@
 {% extends 'base.html' %}
 {% block contenu %}
-<div class="row justify-content-center">
-  <div class="col-md-4">
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h4 class="mb-3">Connexion</h4>
+<div class="row justify-content-center align-items-center login-wrapper">
+  <div class="col-md-6 col-lg-4">
+    <div class="text-center mb-4">
+      <div class="login-logo mb-3"><i class="bi bi-calendar2-week"></i></div>
+      <h3 class="page-title mb-1">Gestion des conférences</h3>
+      <p class="page-subtitle mb-0">Appels à communication du laboratoire</p>
+    </div>
+
+    <div class="card">
+      <div class="card-body p-4">
         <form method="post">
-          <input class="form-control mb-2" name="login" placeholder="Login" required>
-          <input class="form-control mb-3" name="mot_de_passe" type="password" placeholder="Mot de passe" required>
-          <button class="btn btn-primary w-100">Se connecter</button>
+          <label class="form-label small fw-semibold">Login</label>
+          <div class="input-group mb-3">
+            <span class="input-group-text bg-white"><i class="bi bi-person"></i></span>
+            <input class="form-control" name="login" placeholder="ex : alice" required autofocus>
+          </div>
+          <label class="form-label small fw-semibold">Mot de passe</label>
+          <div class="input-group mb-4">
+            <span class="input-group-text bg-white"><i class="bi bi-lock"></i></span>
+            <input class="form-control" name="mot_de_passe" type="password" placeholder="••••••••" required>
+          </div>
+          <button class="btn btn-primary w-100 py-2">
+            <i class="bi bi-box-arrow-in-right me-1"></i>Se connecter</button>
         </form>
-        <p class="text-muted small mt-3 mb-0">
-          Comptes de démonstration : <b>admin</b> / admin123 · <b>alice</b> / alice123
-        </p>
+      </div>
+    </div>
+
+    <div class="card mt-3">
+      <div class="card-body small text-muted">
+        <i class="bi bi-info-circle me-1"></i>Comptes de démonstration :
+        <b>admin</b> / admin123 (administrateur) · <b>alice</b> / alice123 (utilisateur)
       </div>
     </div>
   </div>

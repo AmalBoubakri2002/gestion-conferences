@@ -29,10 +29,11 @@ projet4/
 ├── README.md                    ← ce fichier
 ├── requirements.txt             ← dépendances Python
 ├── init_db.sh                   ← crée (ou recrée) toute la base en une commande
+├── restore_dump.sh              ← restaure la base complète (avec données) depuis le dump
 │
 ├── sql/
 │   ├── 01_create_tables.sql     ← 19 tables, clés, contraintes CHECK / UNIQUE / FK
-│   ├── 02_triggers.sql          ← 5 triggers + fonctions (contraintes multi-tables)
+│   ├── 02_triggers.sql          ← 7 triggers + fonctions (contraintes multi-tables)
 │   ├── 03_index.sql             ← 18 index (dont 2 index GIN pg_trgm)
 │   ├── 04_vues.sql              ← 8 vues
 │   ├── 05_requetes.sql          ← les 9 requêtes du sujet (paramétrables)
@@ -46,7 +47,8 @@ projet4/
 │
 ├── app/
 │   ├── app.py                   ← application Flask + modèles ORM SQLAlchemy
-│   └── templates/               ← pages HTML (Bootstrap)
+│   ├── static/style.css         ← style de l'interface (complète Bootstrap)
+│   └── templates/               ← pages HTML (Bootstrap + Bootstrap Icons)
 │
 ├── conception/                  ← schéma Entité-Association (DB-MAIN)
 ├── dump/                        ← sauvegarde de la base (voir section 9)
@@ -56,7 +58,7 @@ projet4/
 | Élément | Nombre |
 |---|---|
 | Tables | 19 |
-| Triggers | 5 |
+| Triggers | 7 |
 | Index créés | 18 (en plus des index automatiques des clés primaires et UNIQUE) |
 | Vues | 8 |
 | Lignes insérées par l'alimentation | environ 9 000 |
@@ -67,7 +69,7 @@ projet4/
 
 | Outil | Version testée |
 |---|---|
-| PostgreSQL | 16 (avec l'extension `pg_trgm`, fournie par défaut) |
+| PostgreSQL | 17 (avec l'extension `pg_trgm`, fournie par défaut). La version 17 est nécessaire pour restaurer le dump. |
 | Python | 3.10 ou plus |
 | Navigateur web | n'importe lequel |
 
@@ -81,8 +83,8 @@ projet4/
   Fermer puis rouvrir le Terminal.
 - **Homebrew** :
   ```bash
-  brew install postgresql@16
-  brew services start postgresql@16
+  brew install postgresql@17
+  brew services start postgresql@17
   ```
 
 **Windows / Linux** : installer PostgreSQL depuis <https://www.postgresql.org/download/>.
@@ -132,7 +134,7 @@ Résultat attendu :
 >>> Exécution de sql/02_triggers.sql
 >>> Exécution de sql/03_index.sql
 >>> Exécution de sql/04_vues.sql
->>> Base gestion_conferences initialisée : 19 tables, 5 triggers, 18 index, 8 vues.
+>>> Base gestion_conferences initialisée : 19 tables, 7 triggers, 18 index, 8 vues.
 ```
 
 > ⚠️ `init_db.sh` **supprime puis recrée** le schéma `conferences` : toutes les données sont effacées. Il faut ensuite relancer l'alimentation (section 5).
@@ -289,14 +291,30 @@ pg_dump -d gestion_conferences -n conferences --no-owner -f dump/gestion_confere
 Le fichier contient la structure (tables, triggers, index, vues) **et** les données.
 
 ### Restaurer la base à partir du dump
+Arrêter d'abord l'application Flask (**Ctrl + C**), puis :
 ```bash
-createdb gestion_conferences                       # si la base n'existe pas
-psql -d gestion_conferences -c "CREATE EXTENSION IF NOT EXISTS pg_trgm SCHEMA public;"
-psql -d gestion_conferences -c "DROP SCHEMA IF EXISTS conferences CASCADE;"
-psql -d gestion_conferences -v ON_ERROR_STOP=1 -f dump/gestion_conferences.sql
-psql -d gestion_conferences -c "ALTER DATABASE gestion_conferences SET search_path TO conferences, public;"
+chmod +x restore_dump.sh        # une seule fois
+./restore_dump.sh
+```
+Résultat attendu :
+```
+>>> Suppression puis création de la base gestion_conferences
+>>> Restauration de dump/gestion_conferences.sql
+>>> Base gestion_conferences restaurée : 205 conférences, 71 utilisateurs.
 ```
 La base est alors directement utilisable, sans relancer le notebook.
+
+> ⚠️ Le script **supprime puis recrée** la base `gestion_conferences`.
+> Pour restaurer dans une autre base : `./restore_dump.sh nom_de_la_base`.
+
+Ce que fait le script, si l'on préfère taper les commandes à la main :
+```bash
+dropdb --if-exists gestion_conferences
+createdb gestion_conferences
+psql -d gestion_conferences -c "CREATE EXTENSION IF NOT EXISTS pg_trgm SCHEMA public;"
+psql -d gestion_conferences -q -v ON_ERROR_STOP=1 -f dump/gestion_conferences.sql
+psql -d gestion_conferences -c "ALTER DATABASE gestion_conferences SET search_path TO conferences, public;"
+```
 
 ---
 
@@ -305,7 +323,7 @@ La base est alors directement utilisable, sans relancer le notebook.
 Les scripts de test **ne modifient pas les données** : ils annulent leurs changements (`ROLLBACK`) ou suppriment leurs données de test.
 
 ```bash
-# Les triggers refusent les données invalides (7 ERROR attendues, toutes volontaires)
+# Les triggers refusent les données invalides (9 ERROR attendues, toutes volontaires)
 psql -d gestion_conferences -f sql/tests/test_02_triggers.sql
 
 # Gain des index : comparer « Seq Scan » et « Index Scan » ainsi que les temps d'exécution
@@ -318,8 +336,8 @@ psql -d gestion_conferences -f sql/tests/test_04_vues.sql
 | Contrainte vérifiée par trigger | Règle |
 |---|---|
 | CI-1 | Un évaluateur de session est membre du comité de programme de la conférence |
-| CI-2 | Un workshop n'est rattaché ni à lui-même ni à un autre workshop, et a lieu au plus 7 jours avant ou après sa conférence mère |
-| CI-3 | La date limite de version finale précède le début de la conférence |
+| CI-2 | Un workshop n'est rattaché ni à lui-même ni à un autre workshop, et a lieu au plus 7 jours avant ou après sa conférence mère (revérifié quand on modifie les dates). Supprimer une conférence supprime aussi ses workshops |
+| CI-3 | La date limite de version finale précède le début de la conférence (revérifié quand on modifie les dates de la conférence) |
 | CI-4 | La hiérarchie des thèmes ne contient pas de cycle |
 
 ---
@@ -329,14 +347,16 @@ psql -d gestion_conferences -f sql/tests/test_04_vues.sql
 | Problème | Solution |
 |---|---|
 | `psql: command not found` | PostgreSQL n'est pas dans le PATH : voir la section 2, puis rouvrir le Terminal. |
-| `connection to server ... failed` | Le serveur PostgreSQL n'est pas démarré : ouvrir Postgres.app, ou `brew services start postgresql@16`. |
+| `connection to server ... failed` | Le serveur PostgreSQL n'est pas démarré : ouvrir Postgres.app, ou `brew services start postgresql@17`. |
 | `database "gestion_conferences" does not exist` | Lancer `./init_db.sh`. |
 | `relation "conference" does not exist` | Le `search_path` n'est pas réglé : relancer `./init_db.sh`, ou préfixer par `conferences.` |
 | `permission denied: ./init_db.sh` | `chmod +x init_db.sh` |
 | `ModuleNotFoundError: No module named 'flask'` (ou `faker`, `psycopg2`) | Activer l'environnement : `source .venv/bin/activate`, puis `pip install -r requirements.txt`. |
 | `extension "pg_trgm" is not available` | Installer les modules contrib de PostgreSQL (inclus avec Postgres.app et Homebrew). |
 | Port 5000 déjà utilisé (macOS : AirPlay) | Lancer sur un autre port : `flask --app app run --port 5001`, puis ouvrir <http://127.0.0.1:5001>. |
-| Plus aucune donnée après `init_db.sh` | Normal : le script recrée la base vide. Relancer le notebook (section 5) ou restaurer le dump (section 9). |
+| Plus aucune donnée après `init_db.sh` | Normal : le script recrée la base vide. Relancer le notebook (section 5) ou `./restore_dump.sh` (section 9). |
+| `database "gestion_conferences" is being accessed by other users` | L'application Flask est encore lancée : l'arrêter (**Ctrl + C**) puis relancer `./restore_dump.sh`. |
+| `permission denied: ./restore_dump.sh` | `chmod +x restore_dump.sh` |
 
 ---
 

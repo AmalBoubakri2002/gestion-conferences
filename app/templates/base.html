@@ -2,33 +2,62 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gestion des conférences</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 </head>
-<body class="bg-light">
-<nav class="navbar navbar-expand navbar-dark bg-dark mb-4">
+<body>
+<nav class="navbar navbar-expand navbar-dark navbar-app shadow-sm mb-4">
   <div class="container">
-    <a class="navbar-brand" href="{{ url_for('conferences') }}">Gestion des conférences</a>
+    <a class="navbar-brand fw-semibold" href="{{ url_for('conferences') }}">
+      <i class="bi bi-calendar2-week me-2"></i>Gestion des conférences
+    </a>
     {% if session.login %}
-    <ul class="navbar-nav me-auto">
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('conferences') }}">Conférences</a></li>
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('profil') }}">Mon profil</a></li>
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('requetes') }}">Les 9 requêtes</a></li>
+    {% set page = request.endpoint %}
+    <ul class="navbar-nav me-auto gap-1">
+      <li class="nav-item"><a class="nav-link {{ 'active' if page in ('conferences', 'conference') }}"
+          href="{{ url_for('conferences') }}"><i class="bi bi-list-ul me-1"></i>Conférences</a></li>
+      <li class="nav-item"><a class="nav-link {{ 'active' if page == 'profil' }}"
+          href="{{ url_for('profil') }}"><i class="bi bi-person me-1"></i>Mon profil</a></li>
+      <li class="nav-item"><a class="nav-link {{ 'active' if page == 'requetes' }}"
+          href="{{ url_for('requetes') }}"><i class="bi bi-database me-1"></i>Les 9 requêtes</a></li>
       {% if session.role == 'admin' %}
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('conference_creer') }}">+ Nouvelle conférence</a></li>
+      <li class="nav-item"><a class="nav-link {{ 'active' if page == 'conference_creer' }}"
+          href="{{ url_for('conference_creer') }}"><i class="bi bi-plus-circle me-1"></i>Nouvelle conférence</a></li>
       {% endif %}
     </ul>
-    <span class="navbar-text me-3">{{ session.login }} ({{ session.role }})</span>
-    <a class="btn btn-outline-light btn-sm" href="{{ url_for('logout') }}">Déconnexion</a>
+    <div class="d-flex align-items-center gap-3">
+      <div class="d-flex align-items-center gap-2 text-white">
+        <span class="avatar avatar-nav">{{ session.login[:1]|upper }}</span>
+        <div class="lh-sm">
+          <div class="fw-semibold small">{{ session.login }}</div>
+          <div class="small opacity-75">{{ 'Administrateur' if session.role == 'admin' else 'Utilisateur' }}</div>
+        </div>
+      </div>
+      <a class="btn btn-outline-light btn-sm" href="{{ url_for('logout') }}">
+        <i class="bi bi-box-arrow-right me-1"></i>Déconnexion</a>
+    </div>
     {% endif %}
   </div>
 </nav>
 
-<main class="container">
+<main class="container pb-5">
   {% for categorie, message in get_flashed_messages(with_categories=true) %}
-    <div class="alert alert-{{ categorie }}">{{ message }}</div>
+  <div class="alert alert-{{ categorie }} alert-dismissible d-flex align-items-center shadow-sm">
+    <i class="bi bi-{{ 'check-circle-fill' if categorie == 'success' else 'exclamation-triangle-fill' }} me-2"></i>
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
   {% endfor %}
   {% block contenu %}{% endblock %}
 </main>
+
+<footer class="text-center py-3">
+  MOD 11.1 – Systèmes de gestion de bases de données · Projet 4 : Gestion des conférences
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

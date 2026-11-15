@@ -58,7 +58,7 @@ CREATE INDEX idx_theme_parent          ON theme (id_theme_parent);
 -- ---------------------------------------------------------------------
 
 -- Requête 1 : conférences de l'année courante.
--- La requête sera écrite sous forme d'intervalle :
+-- La requête est écrite sous forme d'intervalle :
 --   WHERE date_debut >= date_trunc('year', CURRENT_DATE)
 --     AND date_debut <  date_trunc('year', CURRENT_DATE) + INTERVAL '1 year'
 -- pour que cet index B-tree soit utilisable (un EXTRACT(YEAR ...) ne l'utiliserait pas).

@@ -6,8 +6,8 @@
 --  Les requêtes sont PARAMÉTRÉES avec des variables psql (\set).
 --  Pour changer un paramètre : modifier la valeur ci-dessous, ou lancer
 --     psql -d gestion_conferences -v login=bob -f sql/05_requetes.sql
---  Dans l'interface (Python), ces variables deviendront des paramètres
---  de requête (%s), ce qui protège contre les injections SQL.
+--  Dans l'interface (app.py), ces variables sont des paramètres
+--  de requête (:login, :sigle...), ce qui protège contre les injections SQL.
 -- =====================================================================
 
 SET search_path TO conferences, public;
@@ -136,7 +136,7 @@ ORDER BY date_debut;
 -- ---------------------------------------------------------------------
 -- - Vue v_workshops : chaque workshop avec sa conférence mère.
 -- - Paramètre : l'identifiant de la conférence (dans l'interface, il est
---   choisi dans une liste déroulante).
+--   saisi dans le formulaire de la requête 6).
 -- - On calcule la position du workshop par rapport à la conférence.
 -- =====================================================================
 \echo '\n===== REQUÊTE 6 : workshops de la conférence n°' :id_conf '====='

@@ -10,6 +10,7 @@ Deux profils :
   - admin       : en plus, créer / modifier / supprimer des conférences (CRUD)
 """
 import os
+from datetime import date
 from functools import wraps
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash
@@ -22,13 +23,43 @@ from werkzeug.security import check_password_hash
 # Configuration
 # ---------------------------------------------------------------------
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'mod-11-1-projet-4'          # signe le cookie de session
+# signe le cookie de session (valeur par défaut acceptable en local uniquement)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'mod-11-1-projet-4')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     'DATABASE_URL', 'postgresql+psycopg2:///gestion_conferences')
 # toutes les tables sont dans le schéma "conferences"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
     'connect_args': {'options': '-csearch_path=conferences,public'}}
 db = SQLAlchemy(app)
+
+
+# ---------------------------------------------------------------------
+# Aides pour l'affichage (utilisées dans les templates)
+# ---------------------------------------------------------------------
+@app.template_filter('fmt')
+def format_valeur(valeur):
+    """Dates au format français (JJ/MM/AAAA), cases vides pour NULL."""
+    if isinstance(valeur, date):
+        return valeur.strftime('%d/%m/%Y')
+    return '' if valeur is None else valeur
+
+
+@app.context_processor
+def variables_communes():
+    """Variables disponibles dans tous les templates."""
+    return {'today': date.today()}
+
+
+# En-têtes lisibles pour les tableaux de résultats et les paramètres des requêtes
+LIBELLES = {
+    'id_conf': 'N° conf.', 'intitule': 'Intitulé', 'date_debut': 'Début', 'nom_ville': 'Ville',
+    'nom_pays': 'Pays', 'type': 'Type', 'nb': 'Nombre', 'conferences': 'Conférences',
+    'themes': 'Thèmes', 'statut': 'Statut', 'nom_editeur': 'Éditeur', 'workshop': 'Workshop',
+    'workshop_debut': 'Date', 'conference_mere': 'Conférence mère', 'serie_sigle': 'Série',
+    'login': 'Login', 'utilisateur': 'Utilisateur', 'nb_conferences': 'Nb conférences',
+    'roles': 'Rôles', 'mot_cle': 'Mot-clé', 'sigle': 'Sigle de la série', 'editeur': 'Éditeur',
+    'nom': 'Nom', 'prenom': 'Prénom',
+}
 
 
 # ---------------------------------------------------------------------
@@ -181,9 +212,11 @@ def conference(id_conf):
             WHERE s.id_conf = :id
             GROUP BY s.num_session, s.intitule_session ORDER BY s.num_session""", id=id_conf),
         responsables=sql("""
-            SELECT prenom, nom, STRING_AGG(role, ', ') AS roles
+            SELECT prenom, nom, STRING_AGG(role, ', ' ORDER BY role) AS roles
             FROM v_personnes_responsables WHERE id_conf = :id
-            GROUP BY prenom, nom ORDER BY nom""", id=id_conf),
+            GROUP BY prenom, nom
+            -- les responsables (chairs...) d'abord, puis les simples membres du comité
+            ORDER BY bool_and(role = 'Program Committee member'), nom""", id=id_conf),
         specifications=sql("SELECT * FROM v_specifications WHERE id_conf = :id ORDER BY categorie", id=id_conf),
         workshops=sql("SELECT * FROM v_workshops WHERE id_conf_mere = :id", id=id_conf))
 
@@ -274,6 +307,23 @@ def profil():
 # ---------------------------------------------------------------------
 # Les 9 requêtes du sujet
 # ---------------------------------------------------------------------
+# Énoncés du sujet, affichés au-dessus de chaque requête
+ENONCES = {
+    1: "Afficher la liste des conférences qui ont lieu dans l'année courante.",
+    2: "Afficher la liste des pays, avec pour chaque pays la liste des conférences (intitulé) "
+       "qui y ont été organisées.",
+    3: "Afficher les conférences qui portent sur un domaine de recherche portant sur les bases de "
+       "données spatiales (le mot-clé enregistré n'est pas forcément « bases de données spatiales »).",
+    4: "Afficher la liste des conférences qui intéressent un utilisateur particulier.",
+    5: "Afficher la liste des conférences du groupe de conférences SDH.",
+    6: "Afficher la liste des workshops organisés conjointement avec une conférence donnée.",
+    7: "Afficher la liste des conférences qui ont publié dans les actes d'un éditeur donné.",
+    8: "Afficher la liste des utilisateurs de la base de données qui ont aussi été responsables "
+       "d'une conférence (comme responsable ou membre du comité de programme).",
+    9: "Afficher la liste des conférences pour lesquelles le professeur « X » a été responsable "
+       "(comme responsable ou membre du comité de programme).",
+}
+
 REQUETES = {
     1: dict(titre="Conférences de l'année courante", params={}, sql="""
         SELECT id_conf, intitule, date_debut, nom_ville, nom_pays,
@@ -328,7 +378,8 @@ REQUETES = {
 @app.route('/requetes/<int:num>')
 @connexion_requise
 def requetes(num=1):
-    req = REQUETES.get(num) or REQUETES[1]
+    num = num if num in REQUETES else 1
+    req = REQUETES[num]
     valeurs = {p: request.args.get(p, defaut) for p, defaut in req['params'].items()}
     try:
         resultat = sql(req['sql'], **valeurs)
@@ -337,7 +388,8 @@ def requetes(num=1):
         flash('Erreur : ' + str(e.orig).split('\n')[0], 'danger')
         resultat = []
     return render_template('requetes.html', requetes=REQUETES, num=num, req=req,
-                           valeurs=valeurs, resultat=resultat)
+                           valeurs=valeurs, resultat=resultat, libelles=LIBELLES,
+                           enonce=ENONCES[num])
 
 
 if __name__ == '__main__':

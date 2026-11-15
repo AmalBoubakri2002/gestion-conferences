@@ -109,7 +109,7 @@ JOIN conference cm ON cm.id_conf = w.id_conf_mere;
 -- ---------------------------------------------------------------------
 -- V5. v_conferences_par_pays
 --     Pour chaque pays, la liste des conférences qui y ont été organisées.
---     Répond directement à la requête 2.
+--     Variante de la requête 2 (workshops inclus, pays sans conférence absents).
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW v_conferences_par_pays AS
 SELECT

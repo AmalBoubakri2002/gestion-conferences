@@ -1,5 +1,4 @@
 -- =====================================================================
---  MOD 11.1 - Projet 4 : Gestion des conférences
 --  Fichier 01_create_tables.sql : création des tables (DDL PostgreSQL)
 --  Ordre de création : tables "référentiels" -> tables principales
 --                      -> sous-types (héritage) -> tables de jointure
@@ -106,7 +105,8 @@ CREATE TABLE workshop (
     CONSTRAINT fk_workshop_conf FOREIGN KEY (id_conf)
         REFERENCES conference (id_conf) ON DELETE CASCADE,
     CONSTRAINT fk_workshop_mere FOREIGN KEY (id_conf_mere)
-        REFERENCES conference (id_conf) ON DELETE CASCADE,   -- supprimer la conf. supprime le lien
+        REFERENCES conference (id_conf) ON DELETE CASCADE,   -- supprime le lien ; le workshop lui-même est
+                                                             -- supprimé par trg_conference_supprimer_workshops
     CONSTRAINT ck_workshop_pas_sa_mere CHECK (id_conf <> id_conf_mere)
 );
 
